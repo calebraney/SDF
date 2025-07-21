@@ -3,6 +3,7 @@ import { accordion } from './interactions/accordion';
 import { load } from './interactions/load';
 import { loop } from './interactions/loop';
 import { scrollIn } from './interactions/scroll-in';
+import { mouseOver } from './interactions/mouse-over';
 import { scrolling } from './interactions/scrolling';
 import { marquee } from './interactions/marquee';
 import { hoverActive } from './interactions/hover-active';
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!reduceMotion) {
           scrollIn(gsapContext);
           scrolling(gsapContext);
+          mouseOver(gsapContext);
           loop(gsapContext);
         }
       }

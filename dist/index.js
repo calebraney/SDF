@@ -1,1 +1,1367 @@
-(()=>{var xt=Object.defineProperty;var Lt=(s,t,e)=>t in s?xt(s,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):s[t]=e;var X=(s,t,e)=>Lt(s,typeof t!="symbol"?t+"":t,e);var d=function(s,t){let e=typeof s;return typeof t!="string"||t.trim()===""?s:t==="true"&&e==="boolean"?!0:t==="false"&&e==="boolean"?!1:isNaN(t)&&e==="string"?t:!isNaN(t)&&e==="number"?+t:s},n=function(s,t,e){let r=s.hasAttribute(t),h=d(e,s.getAttribute(t));if(r)return h};var U=function(s,t,e){if(!s||!t||!e){console.error(`GSAP checkBreakpoints Error in ${t}`);return}let{isMobile:r,isTablet:h,isDesktop:l,reduceMotion:E}=e.conditions;if(r===void 0||h===void 0||l===void 0){console.error("GSAP Match Media Conditions Not Defined");return}let f=`data-ix-${t}-desktop`,S=`data-ix-${t}-tablet`,i=`data-ix-${t}-mobile`,g=`data-ix-${t}-run`;return runAll=d(!0,s.getAttribute(g)),runMobile=d(!0,s.getAttribute(i)),runTablet=d(!0,s.getAttribute(S)),runDesktop=d(!0,s.getAttribute(f)),!(runAll===!1||runMobile===!1&&r||runTablet===!1&&h||runDesktop===!1&&l)},$=function(s){let t=s,e={left:"polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",right:"polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",top:"polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",bottom:"polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",full:"polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"};return s==="left"&&(t=e.left),s==="right"&&(t=e.right),s==="top"&&(t=e.top),s==="bottom"&&(t=e.bottom),s==="full"&&(t=e.full),t};function at(s){if(!s||!(s instanceof Element))return[];let t=[];function e(r){let h=Array.from(r.children);for(let l of h)window.getComputedStyle(l).display==="contents"?e(l):t.push(l)}return e(s),t}var ct=function(s){let t="accordion",e='[data-ix-accordion="wrap"]',r='[data-ix-accordion="item"]',h='[data-ix-accordion="open"]',l="data-ix-accordion-first-open",E="data-ix-accordion-one-active",f="data-ix-accordion-keep-one-open",S="data-ix-accordion-hover",i="is-active",g=gsap.utils.toArray(e),u=function(m,R=!0){R===!0?m.classList.add(i):m.classList.remove(i)};g.length===0||g===void 0||g.forEach(m=>{if(U(m,t,s)===!1)return;let q=d(!1,m.getAttribute(l)),N=d(!1,m.getAttribute(E)),A=d(!1,m.getAttribute(f)),z=d(!1,m.getAttribute(S)),b=Array.from(m.querySelectorAll(r));if(b.length===0)return;let w=m.firstElementChild;q&&u(w),z||m.addEventListener("click",function(v){let I=v.target.closest(h);if(!I)return;let D=I.closest(r),y=D.classList.contains(i);y||(N&&b.forEach(O=>{O===D?u(O):u(O,!1)}),N||u(D)),y&&!A&&u(D,!1),y&&keepOneActive&&b.filter(function(P){return P.classList.contains(activeClass)}).length>1&&u(item,!1)}),z&&b.forEach(v=>{v.addEventListener("mouseover",function(){u(v)}),v.addEventListener("mouseout",function(){u(v,!1)})})})};var ht=function(s){let t="load",e="data-ix-load",r="wrap",h="heading",l="item",E="image",f="line",S="stagger",i="data-ix-load-position",g="<0.2",u=[];gsap.utils.toArray(`[${e}="${r}"]`).forEach(R=>{if(U(R,t,s)===!1)return;let N=[...R.querySelectorAll(`[${e}]:not([${e}-run="false"])`)];if(N.length===0)return;let{isMobile:A,isTablet:z,isDesktop:b,reduceMotion:w}=s.conditions,v=gsap.timeline({paused:!0,defaults:{ease:"power1.out",duration:.8}});v.set(R,{autoAlpha:1});let I=function(a){gsap.set(a,{autoAlpha:1});let _=d(0,a.getAttribute(i));a.classList.contains("w-richtext")&&(a=a.children),SplitText.create(a,{type:"words",wordsClass:"word",autoSplit:!0,onSplit:G=>v.from(G.words,{y:"50%",rotateX:45,autoAlpha:0,stagger:.075},_)})},D=function(a){let _=d(g,a.getAttribute(i));v.fromTo(a,{autoAlpha:0,scale:.7},{autoAlpha:1,scale:1},_)},y=function(a){let _=d(g,a.getAttribute(i));v.fromTo(a,{clipPath:"polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"},{clipPath:"polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"},_)},O=function(a){let _=d(g,a.getAttribute(i));v.fromTo(a,{autoAlpha:0,y:"2rem"},{autoAlpha:1,y:"0rem"},_)},P=function(a){if(!a)return;let _=gsap.utils.toArray(a.children);_.length!==0&&_.forEach((G,H)=>{H===0&&gsap.set(a,{autoAlpha:1}),O(G)})},M=function(a){a&&v.fromTo(a,{autoAlpha:0},{autoAlpha:1,ease:"power1.out",duration:1.2},"<")};N.forEach(a=>{if(!a)return;let _=a.getAttribute(e);w?M(_===S?a.children:a):(_===h&&I(a),_===E&&D(a),_===f&&y(a),_===l&&O(a),_===S&&P(a))}),v.play(0),u.push(v)})};var dt=function(s){let t="loop",e='[data-ix-loop="item"]',r="data-ix-loop-ease",h="data-ix-loop-delay",l="data-ix-loop-repeat-delay",E="data-ix-loop-yoyo",f="data-ix-loop-duration",S="data-ix-loop-x-start",i="data-ix-loop-x-end",g="data-ix-loop-y-start",u="data-ix-loop-y-end",m="data-ix-loop-scale-start",R="data-ix-loop-scale-end",q="data-ix-loop-scale-x-start",N="data-ix-loop-scale-x-end",A="data-ix-loop-scale-y-start",z="data-ix-loop-scale-y-end",b="data-ix-loop-width-start",w="data-ix-loop-width-end",v="data-ix-loop-height-start",I="data-ix-loop-height-end",D="data-ix-loop-rotate-x-start",y="data-ix-loop-rotate-x-end",O="data-ix-loop-rotate-y-start",P="data-ix-loop-rotate-y-end",M="data-ix-loop-rotate-z-start",a="data-ix-loop-rotate-z-end",_="data-ix-loop-opacity-start",G="data-ix-loop-opacity-end",H="data-ix-loop-radius-start",F="data-ix-loop-radius-end",Z="data-ix-loop-clip-start",c="data-ix-loop-clip-end";[...document.querySelectorAll(e)].forEach(o=>{if(!o||U(o,t,s)===!1)return;let{isMobile:C,isTablet:Q,isDesktop:it,reduceMotion:nt}=s.conditions,Y={},T={duration:5},V=gsap.timeline({defaults:{repeat:-1,ease:"none"}});T.yoyo=n(o,E,!1),T.delay=n(o,h,0),T.repeatDelay=n(o,l,0),T.duration=n(o,f,1),T.ease=n(o,r,"none"),Y.x=n(o,S,"0%"),T.x=n(o,i,"0%"),Y.y=n(o,g,"0%"),T.y=n(o,u,"0%"),Y.scale=n(o,m,1),T.scale=n(o,R,1),Y.scaleX=n(o,q,1),T.scaleX=n(o,N,1),Y.scaleY=n(o,A,1),T.scaleY=n(o,z,1),Y.width=n(o,b,"0%"),T.width=n(o,w,"0%"),Y.height=n(o,v,"0%"),T.height=n(o,I,"0%"),Y.rotateX=n(o,D,0),T.rotateX=n(o,y,0),Y.rotateY=n(o,O,0),T.rotateY=n(o,P,0),Y.rotateZ=n(o,M,0),T.rotateZ=n(o,a,0),Y.opacity=n(o,_,0),T.opacity=n(o,G,0),Y.borderRadius=n(o,H,"string"),T.borderRadius=n(o,F,"string");let K=n(o,Z,"left"),rt=n(o,c,"full");Y.clipPath=$(K),T.clipPath=$(rt);let tt=V.fromTo(o,Y,T)})};var ut=function(s){let t="scrollin",e="data-ix-scrollin",r="data-ix-scrollin",h="wrap",l="heading",E="item",f="container",S="stagger",i="rich-text",g="image-wrap",u="image",m="line",R="data-ix-scrollin-toggle-actions",q="data-ix-scrollin-scrub",N="data-ix-scrollin-start",A="data-ix-scrollin-end",z="data-ix-scrollin-clip-direction",b="data-ix-scrollin-stagger",D="power1.out",y=function(c){let p={scrub:!1,toggleActions:"play none none none",start:"top 90%",end:"top 75%"};return p.toggleActions=d(p.toggleActions,c.getAttribute(R)),p.scrub=d(p.scrub,c.getAttribute(q)),p.start=d(p.start,c.getAttribute(N)),p.end=d(p.end,c.getAttribute(A)),gsap.timeline({defaults:{duration:.6,ease:D},scrollTrigger:{trigger:c,start:p.start,end:p.end,toggleActions:p.toggleActions,scrub:p.scrub}})},O=function(c,p,o={}){let L={autoAlpha:0,y:"2rem"},C={autoAlpha:1,y:"0rem"};return o.stagger&&(C.stagger={each:o.stagger,from:"start"}),o.stagger==="small"&&(C.stagger={each:.1,from:"start"}),o.stagger==="large"&&(C.stagger={each:.3,from:"start"}),p.fromTo(c,L,C)},P=function(c){c.classList.contains("w-richtext")&&(c=c.firstChild),SplitText.create(c,{type:"words",wordsClass:"word",autoSplit:!0,onSplit(p){let o=y(c);tween=O(p.words,o,{stagger:"small"});let L=function(C){C.revert()};return tween.eventCallback("onComplete",L,[p]),tween}})},M=function(c){if(c)if(c.classList.contains("w-richtext")){let p=gsap.utils.toArray(c.children);if(p.length===0)return;p.forEach(o=>{let L=y(o),C=O(o,L)})}else{let p=y(c),o=O(c,p)}},a=function(c){if(!c)return;let p=c.firstChild,o=y(c);o.fromTo(p,{scale:1.2},{scale:1,duration:1}),o.fromTo(c,{scale:.9},{scale:1,duration:1},"<")},_=function(c){if(!c)return;let p=d("left",c.getAttribute(z)),o=$(p),L=$("full");y(c).fromTo(c,{clipPath:o},{clipPath:L})},G=function(c){if(!c)return;let p=gsap.utils.toArray(c.children);p.length!==0&&p.forEach(o=>{let L=y(o),C=O(o,L)})},H=function(c){if(!c)return;let p=d(.3,c.getAttribute(b)),o=at(c);if(o.length===0)return;let L=y(c),C=O(o,L,{stagger:p})},F=function(c){if(!c)return;let p=gsap.utils.toArray(c.children);p.length!==0&&p.forEach(o=>{let L=o.tagName;["H1","H2","H3","H4","H5","H6"].includes(L)&&P(o),L==="FIGURE"?a(o):M(o)})};gsap.utils.toArray(`[${e}="${h}"]`).forEach(c=>{if(U(c,t,s)===!1&&c.getAttribute("data-ix-load-run")==="false")return;let o=[...c.querySelectorAll(`[${e}]:not([${e}-run="false"])`)];o.length!==0&&o.forEach(L=>{if(!L)return;let C=L.getAttribute(r);C===l&&P(L),C===E&&M(L),C===u&&a(L),C===m&&_(L),C===f&&G(L),C===S&&H(L),C===i&&F(L)})})};var pt=function(s){let t="scrolling",e='[data-ix-scrolling="wrap"]',r='[data-ix-scrolling="trigger"]',h='[data-ix-scrolling="layer"]',l="data-ix-scrolling-start",E="data-ix-scrolling-end",f="data-ix-scrolling-start-tablet",S="data-ix-scrolling-end-tablet",i="data-ix-scrolling-start-mobile",g="data-ix-scrolling-end-mobile",u="data-ix-scrolling-scrub",m="data-ix-scrolling-position",R="data-ix-scrolling-duration",q="data-ix-scrolling-ease",N="data-ix-scrolling-x-start",A="data-ix-scrolling-x-end",z="data-ix-scrolling-y-start",b="data-ix-scrolling-y-end",w="data-ix-scrolling-scale-start",v="data-ix-scrolling-scale-end",I="data-ix-scrolling-scale-x-start",D="data-ix-scrolling-scale-x-end",y="data-ix-scrolling-scale-y-start",O="data-ix-scrolling-scale-y-end",P="data-ix-scrolling-width-start",M="data-ix-scrolling-width-end",a="data-ix-scrolling-height-start",_="data-ix-scrolling-height-end",G="data-ix-scrolling-rotate-x-start",H="data-ix-scrolling-rotate-x-end",F="data-ix-scrolling-rotate-y-start",Z="data-ix-scrolling-rotate-y-end",c="data-ix-scrolling-rotate-z-start",p="data-ix-scrolling-rotate-z-end",o="data-ix-scrolling-opacity-start",L="data-ix-scrolling-opacity-end",C="data-ix-scrolling-radius-start",Q="data-ix-scrolling-radius-end",it="data-ix-scrolling-clip-start",nt="data-ix-scrolling-clip-end";gsap.utils.toArray(e).forEach(T=>{let V=T.querySelectorAll(h);if(!T||V.length===0)return;let K=T.querySelector(r);if(K||(K=T),U(T,t,s)===!1)return;let{isMobile:tt,isTablet:lt,isDesktop:Rt,reduceMotion:bt}=s.conditions,k={scrub:.5,start:"top bottom",end:"bottom top",ease:"none"};k.start=d(k.start,T.getAttribute(l)),k.end=d(k.end,T.getAttribute(E)),k.scrub=d(k.scrub,T.getAttribute(u)),k.ease=d(k.ease,T.getAttribute(q)),lt&&T.getAttribute(f)&&(k.start=d(k.start,T.getAttribute(f))),lt&&T.getAttribute(S)&&(k.start=d(k.start,T.getAttribute(S))),tt&&T.getAttribute(i)&&(k.start=d(k.start,T.getAttribute(i))),tt&&T.getAttribute(g)&&(k.start=d(k.start,T.getAttribute(g)));let Et=gsap.timeline({scrollTrigger:{trigger:K,start:k.start,end:k.end,scrub:k.scrub,markers:!1},defaults:{duration:1,ease:k.ease}});V.forEach(x=>{if(!x)return;let B={},W={};B.x=n(x,N,"0%"),W.x=n(x,A,"0%"),B.y=n(x,z,"0%"),W.y=n(x,b,"0%"),B.scale=n(x,w,1),W.scale=n(x,v,1),B.scaleX=n(x,I,1),W.scaleX=n(x,D,1),B.scaleY=n(x,y,1),W.scaleY=n(x,O,1),B.width=n(x,P,"0%"),W.width=n(x,M,"0%"),B.height=n(x,a,"0%"),W.height=n(x,_,"0%"),B.rotateX=n(x,G,0),W.rotateX=n(x,H,0),B.rotateY=n(x,F,0),W.rotateY=n(x,Z,0),B.rotateZ=n(x,c,0),W.rotateZ=n(x,p,0),B.opacity=n(x,o,0),W.opacity=n(x,L,0),B.borderRadius=n(x,C,"string"),W.borderRadius=n(x,Q,"string");let mt=n(x,it,"left"),vt=n(x,nt,"full");B.clipPath=$(mt),W.clipPath=$(vt);let _t=d("<",x.getAttribute(m)),wt=d(1,x.getAttribute(R));W.ease=d(x,q,"none");let Ot=Et.fromTo(x,B,W,_t)})})};var ft=function(s){let t="marquee",e='[data-ix-marquee="wrap"]',r='[data-ix-marquee="list"]',h="data-ix-marquee-vertical",l="data-ix-marquee-reverse",E="data-ix-marquee-duration",f="data-ix-marquee-duration-dynamic",S="data-ix-marquee-duration-per-item",i="data-ix-marquee-hover",g="accelerate",u="decelerate",m="pause",N=document.querySelectorAll(e);N.length!==0&&N.forEach(A=>{if(U(A,t,s)===!1)return;let b=[...A.querySelectorAll(r)],w=d(!1,A.getAttribute(h)),v=d(!1,A.getAttribute(l)),I=d(30,A.getAttribute(E)),D=d(!1,A.getAttribute(f)),y=d(5,A.getAttribute(S)),O=b[0].childElementCount;O===1&&(O=b[0].firstElementChild.childElementCount),D&&(I=O*y);let P=d("none",A.getAttribute(i)),M=1;v&&(M=-1);let a=gsap.timeline({repeat:-1,defaults:{ease:"none"}});a.fromTo(b,{xPercent:0,yPercent:0},{xPercent:w?0:-100*M,yPercent:w?-100*M:0,duration:I}),P===g&&(A.addEventListener("mouseenter",_=>{a.timeScale(2)}),A.addEventListener("mouseleave",_=>{a.timeScale(1)})),P===u&&(A.addEventListener("mouseenter",_=>{a.timeScale(.5)}),A.addEventListener("mouseleave",_=>{a.timeScale(1)})),P===m&&(A.addEventListener("mouseenter",_=>{a.pause()}),A.addEventListener("mouseleave",_=>{a.play()}))})};var gt=function(s){let t="hoveractive",e='[data-ix-hoveractive="wrap"]',r='[data-ix-hoveractive="trigger"]',h='[data-ix-hoveractive="target"]',l="data-ix-hoveractive-id",E="data-ix-hoveractive-class",f="data-ix-hoveractive-keep-active",S="is-active",i=function(u){let m=[...u.querySelectorAll(r)],R=d(S,u.getAttribute(E)),q=d(!1,u.getAttribute(f));function N(A,z=!0){let b=!0;R=d(R,A.getAttribute(E));let w=A.getAttribute(l),v=u.querySelector(`${h}[${l}="${w}"]`);(!w||!v)&&(b=!1),z?(A.classList.add(R),b&&v.classList.add(R)):(A.classList.remove(R),b&&v.classList.remove(R))}m.forEach(A=>{A.addEventListener("mouseover",function(z){m.forEach(b=>{b===A?N(A,!0):N(b,!1)})}),A.addEventListener("mouseleave",function(z){q||N(A,!1)})})},g=[...document.querySelectorAll(e)];if(g.length>=0)g.forEach(u=>{U(u,t,s)!==!1&&i(u)});else{let u=document.querySelector("body");i(u)}};function Tt(s,t,e){return Math.max(s,Math.min(t,e))}var et=class{advance(t){if(!this.isRunning)return;let e=!1;if(this.lerp)this.value=(r=this.value,h=this.to,l=60*this.lerp,E=t,function(f,S,i){return(1-i)*f+i*S}(r,h,1-Math.exp(-l*E))),Math.round(this.value)===this.to&&(this.value=this.to,e=!0);else{this.currentTime+=t;let f=Tt(0,this.currentTime/this.duration,1);e=f>=1;let S=e?1:this.easing(f);this.value=this.from+(this.to-this.from)*S}var r,h,l,E;this.onUpdate?.(this.value,e),e&&this.stop()}stop(){this.isRunning=!1}fromTo(t,e,{lerp:r=.1,duration:h=1,easing:l=S=>S,onStart:E,onUpdate:f}){this.from=this.value=t,this.to=e,this.lerp=r,this.duration=h,this.easing=l,this.currentTime=0,this.isRunning=!0,E?.(),this.onUpdate=f}},ot=class{constructor({wrapper:t,content:e,autoResize:r=!0,debounce:h=250}={}){X(this,"resize",()=>{this.onWrapperResize(),this.onContentResize()});X(this,"onWrapperResize",()=>{this.wrapper===window?(this.width=window.innerWidth,this.height=window.innerHeight):(this.width=this.wrapper.clientWidth,this.height=this.wrapper.clientHeight)});X(this,"onContentResize",()=>{this.wrapper===window?(this.scrollHeight=this.content.scrollHeight,this.scrollWidth=this.content.scrollWidth):(this.scrollHeight=this.wrapper.scrollHeight,this.scrollWidth=this.wrapper.scrollWidth)});this.wrapper=t,this.content=e,r&&(this.debouncedResize=function(l,E){let f;return function(){let S=arguments,i=this;clearTimeout(f),f=setTimeout(function(){l.apply(i,S)},E)}}(this.resize,h),this.wrapper===window?window.addEventListener("resize",this.debouncedResize,!1):(this.wrapperResizeObserver=new ResizeObserver(this.debouncedResize),this.wrapperResizeObserver.observe(this.wrapper)),this.contentResizeObserver=new ResizeObserver(this.debouncedResize),this.contentResizeObserver.observe(this.content)),this.resize()}destroy(){this.wrapperResizeObserver?.disconnect(),this.contentResizeObserver?.disconnect(),window.removeEventListener("resize",this.debouncedResize,!1)}get limit(){return{x:this.scrollWidth-this.width,y:this.scrollHeight-this.height}}},j=class{constructor(){this.events={}}emit(t,...e){let r=this.events[t]||[];for(let h=0,l=r.length;h<l;h++)r[h](...e)}on(t,e){return this.events[t]?.push(e)||(this.events[t]=[e]),()=>{this.events[t]=this.events[t]?.filter(r=>e!==r)}}off(t,e){this.events[t]=this.events[t]?.filter(r=>e!==r)}destroy(){this.events={}}},At=100/6,st=class{constructor(t,{wheelMultiplier:e=1,touchMultiplier:r=1}){X(this,"onTouchStart",t=>{let{clientX:e,clientY:r}=t.targetTouches?t.targetTouches[0]:t;this.touchStart.x=e,this.touchStart.y=r,this.lastDelta={x:0,y:0},this.emitter.emit("scroll",{deltaX:0,deltaY:0,event:t})});X(this,"onTouchMove",t=>{let{clientX:e,clientY:r}=t.targetTouches?t.targetTouches[0]:t,h=-(e-this.touchStart.x)*this.touchMultiplier,l=-(r-this.touchStart.y)*this.touchMultiplier;this.touchStart.x=e,this.touchStart.y=r,this.lastDelta={x:h,y:l},this.emitter.emit("scroll",{deltaX:h,deltaY:l,event:t})});X(this,"onTouchEnd",t=>{this.emitter.emit("scroll",{deltaX:this.lastDelta.x,deltaY:this.lastDelta.y,event:t})});X(this,"onWheel",t=>{let{deltaX:e,deltaY:r,deltaMode:h}=t;e*=h===1?At:h===2?this.windowWidth:1,r*=h===1?At:h===2?this.windowHeight:1,e*=this.wheelMultiplier,r*=this.wheelMultiplier,this.emitter.emit("scroll",{deltaX:e,deltaY:r,event:t})});X(this,"onWindowResize",()=>{this.windowWidth=window.innerWidth,this.windowHeight=window.innerHeight});this.element=t,this.wheelMultiplier=e,this.touchMultiplier=r,this.touchStart={x:null,y:null},this.emitter=new j,window.addEventListener("resize",this.onWindowResize,!1),this.onWindowResize(),this.element.addEventListener("wheel",this.onWheel,{passive:!1}),this.element.addEventListener("touchstart",this.onTouchStart,{passive:!1}),this.element.addEventListener("touchmove",this.onTouchMove,{passive:!1}),this.element.addEventListener("touchend",this.onTouchEnd,{passive:!1})}on(t,e){return this.emitter.on(t,e)}destroy(){this.emitter.destroy(),window.removeEventListener("resize",this.onWindowResize,!1),this.element.removeEventListener("wheel",this.onWheel,{passive:!1}),this.element.removeEventListener("touchstart",this.onTouchStart,{passive:!1}),this.element.removeEventListener("touchmove",this.onTouchMove,{passive:!1}),this.element.removeEventListener("touchend",this.onTouchEnd,{passive:!1})}},J=class{constructor({wrapper:t=window,content:e=document.documentElement,wheelEventsTarget:r=t,eventsTarget:h=r,smoothWheel:l=!0,syncTouch:E=!1,syncTouchLerp:f=.075,touchInertiaMultiplier:S=35,duration:i,easing:g=w=>Math.min(1,1.001-Math.pow(2,-10*w)),lerp:u=!i&&.1,infinite:m=!1,orientation:R="vertical",gestureOrientation:q="vertical",touchMultiplier:N=1,wheelMultiplier:A=1,autoResize:z=!0,__experimental__naiveDimensions:b=!1}={}){this.__isSmooth=!1,this.__isScrolling=!1,this.__isStopped=!1,this.__isLocked=!1,this.onVirtualScroll=({deltaX:w,deltaY:v,event:I})=>{if(I.ctrlKey)return;let D=I.type.includes("touch"),y=I.type.includes("wheel");if(this.options.syncTouch&&D&&I.type==="touchstart"&&!this.isStopped&&!this.isLocked)return void this.reset();let O=w===0&&v===0,P=this.options.gestureOrientation==="vertical"&&v===0||this.options.gestureOrientation==="horizontal"&&w===0;if(O||P)return;let M=I.composedPath();if(M=M.slice(0,M.indexOf(this.rootElement)),M.find(H=>{var F,Z,c,p,o;return((F=H.hasAttribute)===null||F===void 0?void 0:F.call(H,"data-lenis-prevent"))||D&&((Z=H.hasAttribute)===null||Z===void 0?void 0:Z.call(H,"data-lenis-prevent-touch"))||y&&((c=H.hasAttribute)===null||c===void 0?void 0:c.call(H,"data-lenis-prevent-wheel"))||((p=H.classList)===null||p===void 0?void 0:p.contains("lenis"))&&!(!((o=H.classList)===null||o===void 0)&&o.contains("lenis-stopped"))}))return;if(this.isStopped||this.isLocked)return void I.preventDefault();if(this.isSmooth=this.options.syncTouch&&D||this.options.smoothWheel&&y,!this.isSmooth)return this.isScrolling=!1,void this.animate.stop();I.preventDefault();let a=v;this.options.gestureOrientation==="both"?a=Math.abs(v)>Math.abs(w)?v:w:this.options.gestureOrientation==="horizontal"&&(a=w);let _=D&&this.options.syncTouch,G=D&&I.type==="touchend"&&Math.abs(a)>5;G&&(a=this.velocity*this.options.touchInertiaMultiplier),this.scrollTo(this.targetScroll+a,Object.assign({programmatic:!1},_?{lerp:G?this.options.syncTouchLerp:1}:{lerp:this.options.lerp,duration:this.options.duration,easing:this.options.easing}))},this.onNativeScroll=()=>{if(!this.__preventNextScrollEvent&&!this.isScrolling){let w=this.animatedScroll;this.animatedScroll=this.targetScroll=this.actualScroll,this.velocity=0,this.direction=Math.sign(this.animatedScroll-w),this.emit()}},window.lenisVersion="1.0.42",t!==document.documentElement&&t!==document.body||(t=window),this.options={wrapper:t,content:e,wheelEventsTarget:r,eventsTarget:h,smoothWheel:l,syncTouch:E,syncTouchLerp:f,touchInertiaMultiplier:S,duration:i,easing:g,lerp:u,infinite:m,gestureOrientation:q,orientation:R,touchMultiplier:N,wheelMultiplier:A,autoResize:z,__experimental__naiveDimensions:b},this.animate=new et,this.emitter=new j,this.dimensions=new ot({wrapper:t,content:e,autoResize:z}),this.toggleClassName("lenis",!0),this.velocity=0,this.isLocked=!1,this.isStopped=!1,this.isSmooth=E||l,this.isScrolling=!1,this.targetScroll=this.animatedScroll=this.actualScroll,this.options.wrapper.addEventListener("scroll",this.onNativeScroll,!1),this.virtualScroll=new st(h,{touchMultiplier:N,wheelMultiplier:A}),this.virtualScroll.on("scroll",this.onVirtualScroll)}destroy(){this.emitter.destroy(),this.options.wrapper.removeEventListener("scroll",this.onNativeScroll,!1),this.virtualScroll.destroy(),this.dimensions.destroy(),this.toggleClassName("lenis",!1),this.toggleClassName("lenis-smooth",!1),this.toggleClassName("lenis-scrolling",!1),this.toggleClassName("lenis-stopped",!1),this.toggleClassName("lenis-locked",!1)}on(t,e){return this.emitter.on(t,e)}off(t,e){return this.emitter.off(t,e)}setScroll(t){this.isHorizontal?this.rootElement.scrollLeft=t:this.rootElement.scrollTop=t}resize(){this.dimensions.resize()}emit(){this.emitter.emit("scroll",this)}reset(){this.isLocked=!1,this.isScrolling=!1,this.animatedScroll=this.targetScroll=this.actualScroll,this.velocity=0,this.animate.stop()}start(){this.isStopped&&(this.isStopped=!1,this.reset())}stop(){this.isStopped||(this.isStopped=!0,this.animate.stop(),this.reset())}raf(t){let e=t-(this.time||t);this.time=t,this.animate.advance(.001*e)}scrollTo(t,{offset:e=0,immediate:r=!1,lock:h=!1,duration:l=this.options.duration,easing:E=this.options.easing,lerp:f=!l&&this.options.lerp,onComplete:S,force:i=!1,programmatic:g=!0}={}){if(!this.isStopped&&!this.isLocked||i){if(["top","left","start"].includes(t))t=0;else if(["bottom","right","end"].includes(t))t=this.limit;else{let u;if(typeof t=="string"?u=document.querySelector(t):t?.nodeType&&(u=t),u){if(this.options.wrapper!==window){let R=this.options.wrapper.getBoundingClientRect();e-=this.isHorizontal?R.left:R.top}let m=u.getBoundingClientRect();t=(this.isHorizontal?m.left:m.top)+this.animatedScroll}}if(typeof t=="number"){if(t+=e,t=Math.round(t),this.options.infinite?g&&(this.targetScroll=this.animatedScroll=this.scroll):t=Tt(0,t,this.limit),r)return this.animatedScroll=this.targetScroll=t,this.setScroll(this.scroll),this.reset(),void(S==null||S(this));if(!g){if(t===this.targetScroll)return;this.targetScroll=t}this.animate.fromTo(this.animatedScroll,t,{duration:l,easing:E,lerp:f,onStart:()=>{h&&(this.isLocked=!0),this.isScrolling=!0},onUpdate:(u,m)=>{this.isScrolling=!0,this.velocity=u-this.animatedScroll,this.direction=Math.sign(this.velocity),this.animatedScroll=u,this.setScroll(this.scroll),g&&(this.targetScroll=u),m||this.emit(),m&&(this.reset(),this.emit(),S?.(this),this.__preventNextScrollEvent=!0,requestAnimationFrame(()=>{delete this.__preventNextScrollEvent}))}})}}}get rootElement(){return this.options.wrapper===window?document.documentElement:this.options.wrapper}get limit(){return this.options.__experimental__naiveDimensions?this.isHorizontal?this.rootElement.scrollWidth-this.rootElement.clientWidth:this.rootElement.scrollHeight-this.rootElement.clientHeight:this.dimensions.limit[this.isHorizontal?"x":"y"]}get isHorizontal(){return this.options.orientation==="horizontal"}get actualScroll(){return this.isHorizontal?this.rootElement.scrollLeft:this.rootElement.scrollTop}get scroll(){return this.options.infinite?(t=this.animatedScroll,e=this.limit,(t%e+e)%e):this.animatedScroll;var t,e}get progress(){return this.limit===0?1:this.scroll/this.limit}get isSmooth(){return this.__isSmooth}set isSmooth(t){this.__isSmooth!==t&&(this.__isSmooth=t,this.toggleClassName("lenis-smooth",t))}get isScrolling(){return this.__isScrolling}set isScrolling(t){this.__isScrolling!==t&&(this.__isScrolling=t,this.toggleClassName("lenis-scrolling",t))}get isStopped(){return this.__isStopped}set isStopped(t){this.__isStopped!==t&&(this.__isStopped=t,this.toggleClassName("lenis-stopped",t))}get isLocked(){return this.__isLocked}set isLocked(t){this.__isLocked!==t&&(this.__isLocked=t,this.toggleClassName("lenis-locked",t))}get className(){let t="lenis";return this.isStopped&&(t+=" lenis-stopped"),this.isLocked&&(t+=" lenis-locked"),this.isScrolling&&(t+=" lenis-scrolling"),this.isSmooth&&(t+=" lenis-smooth"),t}toggleClassName(t,e){this.rootElement.classList.toggle(t,e),this.emitter.emit("className change",this)}};var St=function(){let s=new J({duration:.5,wheelMultiplier:.75,gestureOrientation:"vertical",normalizeWheel:!1,smoothTouch:!1,easing:i=>i===1?1:1-Math.pow(2,-10*i)});function t(i){s.raf(i),requestAnimationFrame(t)}requestAnimationFrame(t),s.on("scroll",()=>{ScrollTrigger&&ScrollTrigger.update()}),gsap.ticker.add(i=>{s.raf(i*1e3)}),gsap.ticker.lagSmoothing(0);let e;function r(i=600){clearTimeout(e),e=setTimeout(()=>{requestAnimationFrame(()=>{s.resize(),console.log("refresh")})},i)}function h(){let i=[...document.querySelectorAll('[data-scroll="refresh"]')];i.length!==0&&i.forEach(g=>{g&&g.addEventListener("click",u=>{r()})})}h();function l(){let i=[...document.querySelectorAll("img[loading='lazy']")];i.length!==0&&i.forEach(g=>{g.addEventListener("load",r)})}function E(){let i=document.querySelectorAll('[data-scroll="stop"]');i?.forEach(g=>{g.addEventListener("click",u=>{s.stop()})})}E();function f(){let i=document.querySelectorAll('[data-scroll="start"]');i?.forEach(g=>{g.addEventListener("click",u=>{s.start()})})}f();function S(){let i=document.querySelectorAll('[data-scroll="toggle"]');i?.forEach(g=>{let u=!1;g.addEventListener("click",m=>{u=!u,u?s.stop():s.start()})})}return S(),s};document.addEventListener("DOMContentLoaded",function(){console.log("Local Script"),gsap.ScrollTrigger!==void 0&&gsap.registerPlugin(ScrollTrigger),gsap.Flip!==void 0&&gsap.registerPlugin(Flip);let s;(function(){gsap.matchMedia().add({isMobile:"(max-width: 767px)",isTablet:"(min-width: 768px)  and (max-width: 991px)",isDesktop:"(min-width: 992px)",reduceMotion:"(prefers-reduced-motion: reduce)"},l=>{let{isMobile:E,isTablet:f,isDesktop:S,reduceMotion:i}=l.conditions;s=St(),ht(l),gt(l),ct(l),ft(l),i||(ut(l),pt(l),dt(l))})})(),function(){let h="[data-ix-reset]",l="data-ix-reset-time";document.querySelectorAll(h).forEach(function(f){f.addEventListener("click",function(S){if(ScrollTrigger.refresh(),f.hasAttribute(l)){let i=d(1e3,f.getAttribute(l));setTimeout(()=>{ScrollTrigger.refresh()},i)}})})}(),function(){let l=document.querySelector("[data-footer-year]");if(!l)return;let E=new Date().getFullYear();l.innerText=E.toString()}()});})();
+(() => {
+  // bin/live-reload.js
+  new EventSource(`http://localhost:3000/esbuild`).addEventListener(
+    "change",
+    () => location.reload()
+  );
+
+  // src/utilities.js
+  var attr = function(defaultVal, attrVal) {
+    const defaultValType = typeof defaultVal;
+    if (typeof attrVal !== "string" || attrVal.trim() === "") return defaultVal;
+    if (attrVal === "true" && defaultValType === "boolean") return true;
+    if (attrVal === "false" && defaultValType === "boolean") return false;
+    if (isNaN(attrVal) && defaultValType === "string") return attrVal;
+    if (!isNaN(attrVal) && defaultValType === "number") return +attrVal;
+    return defaultVal;
+  };
+  var attrIfSet = function(item2, attributeName, defaultValue) {
+    const hasAttribute = item2.hasAttribute(attributeName);
+    const attributeValue = attr(defaultValue, item2.getAttribute(attributeName));
+    if (hasAttribute) {
+      return attributeValue;
+    } else {
+      return;
+    }
+  };
+  var checkBreakpoints = function(item2, animationID, gsapContext) {
+    if (!item2 || !animationID || !gsapContext) {
+      console.error(`GSAP checkBreakpoints Error in ${animationID}`);
+      return;
+    }
+    let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
+    if (isMobile === void 0 || isTablet === void 0 || isDesktop === void 0) {
+      console.error(`GSAP Match Media Conditions Not Defined`);
+      return;
+    }
+    const RUN_DESKTOP = `data-ix-${animationID}-desktop`;
+    const RUN_TABLET = `data-ix-${animationID}-tablet`;
+    const RUN_MOBILE = `data-ix-${animationID}-mobile`;
+    const RUN_ALL = `data-ix-${animationID}-run`;
+    runAll = attr(true, item2.getAttribute(RUN_ALL));
+    runMobile = attr(true, item2.getAttribute(RUN_MOBILE));
+    runTablet = attr(true, item2.getAttribute(RUN_TABLET));
+    runDesktop = attr(true, item2.getAttribute(RUN_DESKTOP));
+    if (runAll === false) return false;
+    if (runMobile === false && isMobile) return false;
+    if (runTablet === false && isTablet) return false;
+    if (runDesktop === false && isDesktop) return false;
+    return true;
+  };
+  var getClipDirection = function(attributeValue) {
+    let clipMask = attributeValue;
+    const clipDirections = {
+      left: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+      right: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
+      top: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+      bottom: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+      full: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+    };
+    if (attributeValue === "left") {
+      clipMask = clipDirections.left;
+    }
+    if (attributeValue === "right") {
+      clipMask = clipDirections.right;
+    }
+    if (attributeValue === "top") {
+      clipMask = clipDirections.top;
+    }
+    if (attributeValue === "bottom") {
+      clipMask = clipDirections.bottom;
+    }
+    if (attributeValue === "full") {
+      clipMask = clipDirections.full;
+    }
+    return clipMask;
+  };
+  function getNonContentsChildren(item2) {
+    if (!item2 || !(item2 instanceof Element)) return [];
+    const result = [];
+    function processChildren(parent) {
+      const children = Array.from(parent.children);
+      for (const child of children) {
+        const display = window.getComputedStyle(child).display;
+        if (display === "contents") {
+          processChildren(child);
+        } else {
+          result.push(child);
+        }
+      }
+    }
+    processChildren(item2);
+    return result;
+  }
+
+  // src/interactions/accordion.js
+  var accordion = function(gsapContext) {
+    const ANIMATION_ID = "accordion";
+    const WRAP = '[data-ix-accordion="wrap"]';
+    const ITEM = '[data-ix-accordion="item"]';
+    const OPEN = '[data-ix-accordion="open"]';
+    const OPTION_FIRST_OPEN = "data-ix-accordion-first-open";
+    const OPTION_ONE_ACTIVE = "data-ix-accordion-one-active";
+    const OPTION_KEEP_ONE_OPEN = "data-ix-accordion-keep-one-open";
+    const OPTION_HOVER_OPEN = "data-ix-accordion-hover";
+    const ACTIVE_CLASS = "is-active";
+    const accordionLists = gsap.utils.toArray(WRAP);
+    const openAccordion = function(item2, open = true) {
+      if (open === true) {
+        item2.classList.add(ACTIVE_CLASS);
+      } else {
+        item2.classList.remove(ACTIVE_CLASS);
+      }
+    };
+    if (accordionLists.length === 0 || accordionLists === void 0) return;
+    accordionLists.forEach((list) => {
+      let runOnBreakpoint = checkBreakpoints(list, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      let firstOpen = attr(false, list.getAttribute(OPTION_FIRST_OPEN));
+      let oneActive = attr(false, list.getAttribute(OPTION_ONE_ACTIVE));
+      let keepOneOpen = attr(false, list.getAttribute(OPTION_KEEP_ONE_OPEN));
+      let hoverOnly = attr(false, list.getAttribute(OPTION_HOVER_OPEN));
+      const accordionItems = Array.from(list.querySelectorAll(ITEM));
+      if (accordionItems.length === 0) return;
+      const firstItem = list.firstElementChild;
+      if (firstOpen) {
+        openAccordion(firstItem);
+      }
+      if (!hoverOnly) {
+        list.addEventListener("click", function(e2) {
+          const clickedEl = e2.target.closest(OPEN);
+          if (!clickedEl) return;
+          const clickedItem = clickedEl.closest(ITEM);
+          let clickedItemAlreadyActive = clickedItem.classList.contains(ACTIVE_CLASS);
+          if (!clickedItemAlreadyActive) {
+            if (oneActive) {
+              accordionItems.forEach((item2) => {
+                if (item2 === clickedItem) {
+                  openAccordion(item2);
+                } else {
+                  openAccordion(item2, false);
+                }
+              });
+            }
+            if (!oneActive) {
+              openAccordion(clickedItem);
+            }
+          }
+          if (clickedItemAlreadyActive && !keepOneOpen) {
+            openAccordion(clickedItem, false);
+          }
+          if (clickedItemAlreadyActive && keepOneActive) {
+            const activeItems = accordionItems.filter(function(item2) {
+              return item2.classList.contains(activeClass);
+            });
+            if (activeItems.length > 1) {
+              openAccordion(item, false);
+            }
+          }
+        });
+      }
+      if (hoverOnly) {
+        accordionItems.forEach((item2) => {
+          item2.addEventListener("mouseover", function() {
+            openAccordion(item2);
+          });
+          item2.addEventListener("mouseout", function() {
+            openAccordion(item2, false);
+          });
+        });
+      }
+    });
+  };
+
+  // src/interactions/load.js
+  var load = function(gsapContext) {
+    const ANIMATION_ID = "load";
+    const ATTRIBUTE = "data-ix-load";
+    const WRAP = "wrap";
+    const HEADING = "heading";
+    const ITEM = "item";
+    const IMAGE = "image";
+    const LINE = "line";
+    const STAGGER = "stagger";
+    const POSITION = "data-ix-load-position";
+    const DEFAULT_STAGGER = "<0.2";
+    let loadTimelines = [];
+    const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+    wraps.forEach((wrap) => {
+      let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      const items = [...wrap.querySelectorAll(`[${ATTRIBUTE}]:not([${ATTRIBUTE}-run="false"])`)];
+      if (items.length === 0) return;
+      let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
+      const tl = gsap.timeline({
+        paused: true,
+        defaults: {
+          ease: "power1.out",
+          duration: 0.8
+        }
+      });
+      tl.set(wrap, {
+        autoAlpha: 1
+      });
+      const loadHeading = function(item2) {
+        gsap.set(item2, { autoAlpha: 1 });
+        const position = attr(0, item2.getAttribute(POSITION));
+        if (item2.classList.contains("w-richtext")) {
+          item2 = item2.children;
+        }
+        SplitText.create(item2, {
+          type: "words",
+          // linesClass: 'line',
+          wordsClass: "word",
+          // charsClass: "char",
+          // mask: 'lines',
+          autoSplit: true,
+          onSplit: (self) => {
+            return tl.from(
+              self.words,
+              {
+                y: "50%",
+                rotateX: 45,
+                autoAlpha: 0,
+                stagger: 0.075
+              },
+              position
+            );
+          }
+        });
+      };
+      const loadImage = function(item2) {
+        const position = attr(DEFAULT_STAGGER, item2.getAttribute(POSITION));
+        tl.fromTo(item2, { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1 }, position);
+      };
+      const loadLine = function(item2) {
+        const position = attr(DEFAULT_STAGGER, item2.getAttribute(POSITION));
+        tl.fromTo(
+          item2,
+          { clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" },
+          { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" },
+          position
+        );
+      };
+      const loadItem = function(item2) {
+        const position = attr(DEFAULT_STAGGER, item2.getAttribute(POSITION));
+        tl.fromTo(item2, { autoAlpha: 0, y: "2rem" }, { autoAlpha: 1, y: "0rem" }, position);
+      };
+      const loadStagger = function(item2) {
+        if (!item2) return;
+        const children = gsap.utils.toArray(item2.children);
+        if (children.length === 0) return;
+        children.forEach((child, index) => {
+          if (index === 0) {
+            gsap.set(item2, { autoAlpha: 1 });
+          }
+          loadItem(child);
+        });
+      };
+      const loadSimple = function(item2) {
+        if (!item2) return;
+        tl.fromTo(
+          item2,
+          {
+            autoAlpha: 0
+          },
+          {
+            autoAlpha: 1,
+            ease: "power1.out",
+            duration: 1.2
+          },
+          "<"
+        );
+      };
+      items.forEach((item2) => {
+        if (!item2) return;
+        const loadType = item2.getAttribute(ATTRIBUTE);
+        if (reduceMotion) {
+          if (loadType === STAGGER) {
+            loadSimple(item2.children);
+          } else {
+            loadSimple(item2);
+          }
+        } else {
+          if (loadType === HEADING) {
+            loadHeading(item2);
+          }
+          if (loadType === IMAGE) {
+            loadImage(item2);
+          }
+          if (loadType === LINE) {
+            loadLine(item2);
+          }
+          if (loadType === ITEM) {
+            loadItem(item2);
+          }
+          if (loadType === STAGGER) {
+            loadStagger(item2);
+          }
+        }
+      });
+      tl.play(0);
+      loadTimelines.push(tl);
+    });
+  };
+
+  // src/interactions/loop.js
+  var loop = function(gsapContext) {
+    const ANIMATION_ID = "loop";
+    const ITEM = `[data-ix-loop="item"]`;
+    const EASE = "data-ix-loop-ease";
+    const DELAY = "data-ix-loop-delay";
+    const REPEAT_DELAY = "data-ix-loop-repeat-delay";
+    const YOYO = "data-ix-loop-yoyo";
+    const DURATION = "data-ix-loop-duration";
+    const X_START = "data-ix-loop-x-start";
+    const X_END = "data-ix-loop-x-end";
+    const Y_START = "data-ix-loop-y-start";
+    const Y_END = "data-ix-loop-y-end";
+    const SCALE_START = "data-ix-loop-scale-start";
+    const SCALE_END = "data-ix-loop-scale-end";
+    const SCALE_X_START = "data-ix-loop-scale-x-start";
+    const SCALE_X_END = "data-ix-loop-scale-x-end";
+    const SCALE_Y_START = "data-ix-loop-scale-y-start";
+    const SCALE_Y_END = "data-ix-loop-scale-y-end";
+    const WIDTH_START = "data-ix-loop-width-start";
+    const WIDTH_END = "data-ix-loop-width-end";
+    const HEIGHT_START = "data-ix-loop-height-start";
+    const HEIGHT_END = "data-ix-loop-height-end";
+    const ROTATE_X_START = "data-ix-loop-rotate-x-start";
+    const ROTATE_X_END = "data-ix-loop-rotate-x-end";
+    const ROTATE_Y_START = "data-ix-loop-rotate-y-start";
+    const ROTATE_Y_END = "data-ix-loop-rotate-y-end";
+    const ROTATE_Z_START = "data-ix-loop-rotate-z-start";
+    const ROTATE_Z_END = "data-ix-loop-rotate-z-end";
+    const OPACITY_START = "data-ix-loop-opacity-start";
+    const OPACITY_END = "data-ix-loop-opacity-end";
+    const RADIUS_START = "data-ix-loop-radius-start";
+    const RADIUS_END = "data-ix-loop-radius-end";
+    const CLIP_START = "data-ix-loop-clip-start";
+    const CLIP_END = "data-ix-loop-clip-end";
+    const items = [...document.querySelectorAll(ITEM)];
+    items.forEach((item2) => {
+      if (!item2) return;
+      let runOnBreakpoint = checkBreakpoints(item2, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
+      const varsFrom = {};
+      const varsTo = { duration: 5 };
+      let tl = gsap.timeline({
+        defaults: {
+          repeat: -1,
+          ease: "none"
+        }
+      });
+      varsTo.yoyo = attrIfSet(item2, YOYO, false);
+      varsTo.delay = attrIfSet(item2, DELAY, 0);
+      varsTo.repeatDelay = attrIfSet(item2, REPEAT_DELAY, 0);
+      varsTo.duration = attrIfSet(item2, DURATION, 1);
+      varsTo.ease = attrIfSet(item2, EASE, "none");
+      varsFrom.x = attrIfSet(item2, X_START, "0%");
+      varsTo.x = attrIfSet(item2, X_END, "0%");
+      varsFrom.y = attrIfSet(item2, Y_START, "0%");
+      varsTo.y = attrIfSet(item2, Y_END, "0%");
+      varsFrom.scale = attrIfSet(item2, SCALE_START, 1);
+      varsTo.scale = attrIfSet(item2, SCALE_END, 1);
+      varsFrom.scaleX = attrIfSet(item2, SCALE_X_START, 1);
+      varsTo.scaleX = attrIfSet(item2, SCALE_X_END, 1);
+      varsFrom.scaleY = attrIfSet(item2, SCALE_Y_START, 1);
+      varsTo.scaleY = attrIfSet(item2, SCALE_Y_END, 1);
+      varsFrom.width = attrIfSet(item2, WIDTH_START, "0%");
+      varsTo.width = attrIfSet(item2, WIDTH_END, "0%");
+      varsFrom.height = attrIfSet(item2, HEIGHT_START, "0%");
+      varsTo.height = attrIfSet(item2, HEIGHT_END, "0%");
+      varsFrom.rotateX = attrIfSet(item2, ROTATE_X_START, 0);
+      varsTo.rotateX = attrIfSet(item2, ROTATE_X_END, 0);
+      varsFrom.rotateY = attrIfSet(item2, ROTATE_Y_START, 0);
+      varsTo.rotateY = attrIfSet(item2, ROTATE_Y_END, 0);
+      varsFrom.rotateZ = attrIfSet(item2, ROTATE_Z_START, 0);
+      varsTo.rotateZ = attrIfSet(item2, ROTATE_Z_END, 0);
+      varsFrom.opacity = attrIfSet(item2, OPACITY_START, 0);
+      varsTo.opacity = attrIfSet(item2, OPACITY_END, 0);
+      varsFrom.borderRadius = attrIfSet(item2, RADIUS_START, "string");
+      varsTo.borderRadius = attrIfSet(item2, RADIUS_END, "string");
+      const clipStart = attrIfSet(item2, CLIP_START, "left");
+      const clipEnd = attrIfSet(item2, CLIP_END, "full");
+      varsFrom.clipPath = getClipDirection(clipStart);
+      varsTo.clipPath = getClipDirection(clipEnd);
+      let tween2 = tl.fromTo(item2, varsFrom, varsTo);
+    });
+  };
+
+  // src/interactions/scroll-in.js
+  var scrollIn = function(gsapContext) {
+    const ANIMATION_ID = "scrollin";
+    const ATTRIBUTE = "data-ix-scrollin";
+    const ELEMENT = "data-ix-scrollin";
+    const WRAP = "wrap";
+    const HEADING = "heading";
+    const ITEM = "item";
+    const CONTAINER = "container";
+    const STAGGER = "stagger";
+    const RICH_TEXT = "rich-text";
+    const IMAGE_WRAP = "image-wrap";
+    const IMAGE = "image";
+    const LINE = "line";
+    const SCROLL_TOGGLE_ACTIONS = "data-ix-scrollin-toggle-actions";
+    const SCROLL_SCRUB = "data-ix-scrollin-scrub";
+    const SCROLL_START = "data-ix-scrollin-start";
+    const SCROLL_END = "data-ix-scrollin-end";
+    const CLIP_DIRECTION = "data-ix-scrollin-clip-direction";
+    const SCROLL_STAGGER = "data-ix-scrollin-stagger";
+    const EASE_SMALL = 0.1;
+    const EASE_LARGE = 0.3;
+    const DURATION = 0.6;
+    const EASE = "power1.out";
+    const scrollInTL = function(item2) {
+      const settings = {
+        scrub: false,
+        toggleActions: "play none none none",
+        start: "top 90%",
+        end: "top 75%"
+      };
+      settings.toggleActions = attr(settings.toggleActions, item2.getAttribute(SCROLL_TOGGLE_ACTIONS));
+      settings.scrub = attr(settings.scrub, item2.getAttribute(SCROLL_SCRUB));
+      settings.start = attr(settings.start, item2.getAttribute(SCROLL_START));
+      settings.end = attr(settings.end, item2.getAttribute(SCROLL_END));
+      const tl = gsap.timeline({
+        defaults: {
+          duration: DURATION,
+          ease: EASE
+        },
+        scrollTrigger: {
+          trigger: item2,
+          start: settings.start,
+          end: settings.end,
+          toggleActions: settings.toggleActions,
+          scrub: settings.scrub
+        }
+      });
+      return tl;
+    };
+    const defaultTween = function(item2, tl, options = {}) {
+      const varsFrom = {
+        autoAlpha: 0,
+        y: "2rem"
+      };
+      const varsTo = {
+        autoAlpha: 1,
+        y: "0rem"
+      };
+      if (options.stagger) {
+        varsTo.stagger = { each: options.stagger, from: "start" };
+      }
+      if (options.stagger === "small") {
+        varsTo.stagger = { each: EASE_SMALL, from: "start" };
+      }
+      if (options.stagger === "large") {
+        varsTo.stagger = { each: EASE_LARGE, from: "start" };
+      }
+      const tween2 = tl.fromTo(item2, varsFrom, varsTo);
+      return tween2;
+    };
+    const scrollInHeading = function(item2) {
+      if (item2.classList.contains("w-richtext")) {
+        item2 = item2.firstChild;
+      }
+      SplitText.create(item2, {
+        type: "words",
+        // 'chars, words, lines
+        // linesClass: "line",
+        wordsClass: "word",
+        // charsClass: "char",
+        // mask: 'lines',
+        autoSplit: true,
+        //have it auto adjust based on width
+        // mask: 'lines',
+        onSplit(self) {
+          const tl = scrollInTL(item2);
+          tween = defaultTween(self.words, tl, { stagger: "small" });
+          const revertText = function(self2) {
+            self2.revert();
+          };
+          tween.eventCallback("onComplete", revertText, [self]);
+          return tween;
+        }
+      });
+    };
+    const scrollInItem = function(item2) {
+      if (!item2) return;
+      if (item2.classList.contains("w-richtext")) {
+        const children = gsap.utils.toArray(item2.children);
+        if (children.length === 0) return;
+        children.forEach((child) => {
+          const tl = scrollInTL(child);
+          const tween2 = defaultTween(child, tl);
+        });
+      } else {
+        const tl = scrollInTL(item2);
+        const tween2 = defaultTween(item2, tl);
+      }
+    };
+    const scrollInImage = function(item2) {
+      if (!item2) return;
+      const child = item2.firstChild;
+      const tl = scrollInTL(item2);
+      tl.fromTo(
+        child,
+        {
+          scale: 1.2
+        },
+        {
+          scale: 1,
+          duration: 1
+        }
+      );
+      tl.fromTo(
+        item2,
+        {
+          scale: 0.9
+        },
+        {
+          scale: 1,
+          duration: 1
+        },
+        "<"
+      );
+    };
+    const scrollInLine = function(item2) {
+      if (!item2) return;
+      const clipAttr = attr("left", item2.getAttribute(CLIP_DIRECTION));
+      const clipStart = getClipDirection(clipAttr);
+      const clipEnd = getClipDirection("full");
+      const tl = scrollInTL(item2);
+      tl.fromTo(
+        item2,
+        {
+          clipPath: clipStart
+        },
+        {
+          clipPath: clipEnd
+        }
+      );
+    };
+    const scrollInContainer = function(item2) {
+      if (!item2) return;
+      const children = gsap.utils.toArray(item2.children);
+      if (children.length === 0) return;
+      children.forEach((child) => {
+        const tl = scrollInTL(child);
+        const tween2 = defaultTween(child, tl);
+      });
+    };
+    const scrollInStagger = function(item2) {
+      if (!item2) return;
+      const staggerAmount = attr(EASE_LARGE, item2.getAttribute(SCROLL_STAGGER));
+      let children = getNonContentsChildren(item2);
+      if (children.length === 0) return;
+      const tl = scrollInTL(item2);
+      const tween2 = defaultTween(children, tl, { stagger: staggerAmount });
+    };
+    const scrollInRichText = function(item2) {
+      if (!item2) return;
+      const children = gsap.utils.toArray(item2.children);
+      if (children.length === 0) return;
+      children.forEach((child) => {
+        const childTag = child.tagName;
+        if (["H1", "H2", "H3", "H4", "H5", "H6"].includes(childTag)) {
+          scrollInHeading(child);
+        }
+        if (childTag === "FIGURE") {
+          scrollInImage(child);
+        } else {
+          scrollInItem(child);
+        }
+      });
+    };
+    const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+    wraps.forEach((wrap) => {
+      let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false && wrap.getAttribute("data-ix-load-run") === "false") return;
+      const items = [...wrap.querySelectorAll(`[${ATTRIBUTE}]:not([${ATTRIBUTE}-run="false"])`)];
+      if (items.length === 0) return;
+      items.forEach((item2) => {
+        if (!item2) return;
+        const scrollInType = item2.getAttribute(ELEMENT);
+        if (scrollInType === HEADING) {
+          scrollInHeading(item2);
+        }
+        if (scrollInType === ITEM) {
+          scrollInItem(item2);
+        }
+        if (scrollInType === IMAGE) {
+          scrollInImage(item2);
+        }
+        if (scrollInType === LINE) {
+          scrollInLine(item2);
+        }
+        if (scrollInType === CONTAINER) {
+          scrollInContainer(item2);
+        }
+        if (scrollInType === STAGGER) {
+          scrollInStagger(item2);
+        }
+        if (scrollInType === RICH_TEXT) {
+          scrollInRichText(item2);
+        }
+      });
+    });
+  };
+
+  // src/interactions/mouse-over.js
+  var mouseOver = function(gsapContext) {
+    const ANIMATION_ID = "mouseover";
+    const WRAP = '[data-ix-mouseover="wrap"]';
+    const LAYER = '[data-ix-mouseover="layer"]';
+    const TARGET = '[data-ix-mouseover="target"]';
+    const DURATION = "data-ix-mouseover-duration";
+    const EASE = "data-ix-mouseover-ease";
+    const MOVE_X = "data-ix-mouseover-move-x";
+    const MOVE_Y = "data-ix-mouseover-move-y";
+    const ROTATE_Z = "data-ix-mouseover-rotate-z";
+    const mouseOverItems = document.querySelectorAll(WRAP);
+    mouseOverItems.forEach((mouseOverItem) => {
+      const layers = mouseOverItem.querySelectorAll(LAYER);
+      if (layers.length === 0) return;
+      let runOnBreakpoint = checkBreakpoints(mouseOverItem, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      let target = mouseOverItem.querySelector(TARGET);
+      if (!target) {
+        target = mouseOverItem;
+      }
+      const mouseMove = function() {
+        let initialProgress = { x: 0.5, y: 0.5 };
+        let progressObject = { x: initialProgress.x, y: initialProgress.y };
+        let duration = attr(0.5, mouseOverItem.getAttribute(DURATION));
+        let ease = attr("power1.out", mouseOverItem.getAttribute(EASE));
+        let cursorXTimeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+        let cursorYTimeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+        layers.forEach((layer) => {
+          let moveX = attr(10, layer.getAttribute(MOVE_X));
+          let moveY = attr(10, layer.getAttribute(MOVE_Y));
+          let rotateZ = attr(0, layer.getAttribute(ROTATE_Z));
+          cursorXTimeline.fromTo(
+            layer,
+            { xPercent: moveX * -1, rotateZ: rotateZ * -1 },
+            { xPercent: moveX, rotateZ },
+            0
+          );
+          cursorYTimeline.fromTo(layer, { yPercent: moveY * -1 }, { yPercent: moveY }, 0);
+        });
+        function setTimelineProgress(xValue, yValue) {
+          gsap.to(progressObject, {
+            x: xValue,
+            y: yValue,
+            ease,
+            duration,
+            onUpdate: () => {
+              cursorXTimeline.progress(progressObject.x);
+              cursorYTimeline.progress(progressObject.y);
+            }
+          });
+        }
+        setTimelineProgress(initialProgress.x, initialProgress.y);
+        target.addEventListener("mousemove", function(e2) {
+          const rect = target.getBoundingClientRect();
+          let mousePercentX = gsap.utils.clamp(
+            0,
+            1,
+            gsap.utils.normalize(0, rect.width, e2.clientX - rect.left)
+          );
+          let mousePercentY = gsap.utils.clamp(
+            0,
+            1,
+            gsap.utils.normalize(0, rect.height, e2.clientY - rect.top)
+          );
+          setTimelineProgress(mousePercentX, mousePercentY);
+        });
+        target.addEventListener("mouseleave", function(e2) {
+          setTimelineProgress(initialProgress.x, initialProgress.y);
+        });
+      };
+      mouseMove();
+    });
+  };
+
+  // src/interactions/scrolling.js
+  var scrolling = function(gsapContext) {
+    const ANIMATION_ID = "scrolling";
+    const WRAP = `[data-ix-scrolling="wrap"]`;
+    const TRIGGER = `[data-ix-scrolling="trigger"]`;
+    const LAYER = '[data-ix-scrolling="layer"]';
+    const START = "data-ix-scrolling-start";
+    const END = "data-ix-scrolling-end";
+    const TABLET_START = "data-ix-scrolling-start-tablet";
+    const TABLET_END = "data-ix-scrolling-end-tablet";
+    const MOBILE_START = "data-ix-scrolling-start-mobile";
+    const MOBILE_END = "data-ix-scrolling-end-mobile";
+    const SCRUB = "data-ix-scrolling-scrub";
+    const POSITION = "data-ix-scrolling-position";
+    const DURATION = "data-ix-scrolling-duration";
+    const EASE = "data-ix-scrolling-ease";
+    const X_START = "data-ix-scrolling-x-start";
+    const X_END = "data-ix-scrolling-x-end";
+    const Y_START = "data-ix-scrolling-y-start";
+    const Y_END = "data-ix-scrolling-y-end";
+    const SCALE_START = "data-ix-scrolling-scale-start";
+    const SCALE_END = "data-ix-scrolling-scale-end";
+    const SCALE_X_START = "data-ix-scrolling-scale-x-start";
+    const SCALE_X_END = "data-ix-scrolling-scale-x-end";
+    const SCALE_Y_START = "data-ix-scrolling-scale-y-start";
+    const SCALE_Y_END = "data-ix-scrolling-scale-y-end";
+    const WIDTH_START = "data-ix-scrolling-width-start";
+    const WIDTH_END = "data-ix-scrolling-width-end";
+    const HEIGHT_START = "data-ix-scrolling-height-start";
+    const HEIGHT_END = "data-ix-scrolling-height-end";
+    const ROTATE_X_START = "data-ix-scrolling-rotate-x-start";
+    const ROTATE_X_END = "data-ix-scrolling-rotate-x-end";
+    const ROTATE_Y_START = "data-ix-scrolling-rotate-y-start";
+    const ROTATE_Y_END = "data-ix-scrolling-rotate-y-end";
+    const ROTATE_Z_START = "data-ix-scrolling-rotate-z-start";
+    const ROTATE_Z_END = "data-ix-scrolling-rotate-z-end";
+    const OPACITY_START = "data-ix-scrolling-opacity-start";
+    const OPACITY_END = "data-ix-scrolling-opacity-end";
+    const RADIUS_START = "data-ix-scrolling-radius-start";
+    const RADIUS_END = "data-ix-scrolling-radius-end";
+    const CLIP_START = "data-ix-scrolling-clip-start";
+    const CLIP_END = "data-ix-scrolling-clip-end";
+    const scrollingItems = gsap.utils.toArray(WRAP);
+    scrollingItems.forEach((scrollingItem) => {
+      const layers = scrollingItem.querySelectorAll(LAYER);
+      if (!scrollingItem || layers.length === 0) return;
+      let trigger = scrollingItem.querySelector(TRIGGER);
+      if (!trigger) {
+        trigger = scrollingItem;
+      }
+      let runOnBreakpoint = checkBreakpoints(scrollingItem, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
+      const tlSettings = {
+        scrub: 0.5,
+        start: "top bottom",
+        end: "bottom top",
+        ease: "none"
+      };
+      tlSettings.start = attr(tlSettings.start, scrollingItem.getAttribute(START));
+      tlSettings.end = attr(tlSettings.end, scrollingItem.getAttribute(END));
+      tlSettings.scrub = attr(tlSettings.scrub, scrollingItem.getAttribute(SCRUB));
+      tlSettings.ease = attr(tlSettings.ease, scrollingItem.getAttribute(EASE));
+      if (isTablet && scrollingItem.getAttribute(TABLET_START)) {
+        tlSettings.start = attr(tlSettings.start, scrollingItem.getAttribute(TABLET_START));
+      }
+      if (isTablet && scrollingItem.getAttribute(TABLET_END)) {
+        tlSettings.start = attr(tlSettings.start, scrollingItem.getAttribute(TABLET_END));
+      }
+      if (isMobile && scrollingItem.getAttribute(MOBILE_START)) {
+        tlSettings.start = attr(tlSettings.start, scrollingItem.getAttribute(MOBILE_START));
+      }
+      if (isMobile && scrollingItem.getAttribute(MOBILE_END)) {
+        tlSettings.start = attr(tlSettings.start, scrollingItem.getAttribute(MOBILE_END));
+      }
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger,
+          start: tlSettings.start,
+          end: tlSettings.end,
+          scrub: tlSettings.scrub,
+          markers: false
+        },
+        defaults: {
+          duration: 1,
+          ease: tlSettings.ease
+        }
+      });
+      layers.forEach((layer) => {
+        if (!layer) return;
+        const varsFrom = {};
+        const varsTo = {};
+        varsFrom.x = attrIfSet(layer, X_START, "0%");
+        varsTo.x = attrIfSet(layer, X_END, "0%");
+        varsFrom.y = attrIfSet(layer, Y_START, "0%");
+        varsTo.y = attrIfSet(layer, Y_END, "0%");
+        varsFrom.scale = attrIfSet(layer, SCALE_START, 1);
+        varsTo.scale = attrIfSet(layer, SCALE_END, 1);
+        varsFrom.scaleX = attrIfSet(layer, SCALE_X_START, 1);
+        varsTo.scaleX = attrIfSet(layer, SCALE_X_END, 1);
+        varsFrom.scaleY = attrIfSet(layer, SCALE_Y_START, 1);
+        varsTo.scaleY = attrIfSet(layer, SCALE_Y_END, 1);
+        varsFrom.width = attrIfSet(layer, WIDTH_START, "0%");
+        varsTo.width = attrIfSet(layer, WIDTH_END, "0%");
+        varsFrom.height = attrIfSet(layer, HEIGHT_START, "0%");
+        varsTo.height = attrIfSet(layer, HEIGHT_END, "0%");
+        varsFrom.rotateX = attrIfSet(layer, ROTATE_X_START, 0);
+        varsTo.rotateX = attrIfSet(layer, ROTATE_X_END, 0);
+        varsFrom.rotateY = attrIfSet(layer, ROTATE_Y_START, 0);
+        varsTo.rotateY = attrIfSet(layer, ROTATE_Y_END, 0);
+        varsFrom.rotateZ = attrIfSet(layer, ROTATE_Z_START, 0);
+        varsTo.rotateZ = attrIfSet(layer, ROTATE_Z_END, 0);
+        varsFrom.opacity = attrIfSet(layer, OPACITY_START, 0);
+        varsTo.opacity = attrIfSet(layer, OPACITY_END, 0);
+        varsFrom.borderRadius = attrIfSet(layer, RADIUS_START, "string");
+        varsTo.borderRadius = attrIfSet(layer, RADIUS_END, "string");
+        const clipStart = attrIfSet(layer, CLIP_START, "left");
+        const clipEnd = attrIfSet(layer, CLIP_END, "full");
+        varsFrom.clipPath = getClipDirection(clipStart);
+        varsTo.clipPath = getClipDirection(clipEnd);
+        const position = attr("<", layer.getAttribute(POSITION));
+        const duration = attr(1, layer.getAttribute(DURATION));
+        varsTo.ease = attr(layer, EASE, "none");
+        let tween2 = tl.fromTo(layer, varsFrom, varsTo, position);
+      });
+    });
+  };
+
+  // src/interactions/marquee.js
+  var marquee = function(gsapContext) {
+    const ANIMATION_ID = "marquee";
+    const WRAP = '[data-ix-marquee="wrap"]';
+    const LIST = '[data-ix-marquee="list"]';
+    const VERTICAL = "data-ix-marquee-vertical";
+    const REVERSE = "data-ix-marquee-reverse";
+    const DURATION = "data-ix-marquee-duration";
+    const DYNAMIC_DURATION = "data-ix-marquee-duration-dynamic";
+    const DURATION_PER_ITEM = "data-ix-marquee-duration-per-item";
+    const HOVER_EFFECT = "data-ix-marquee-hover";
+    const ACCELERATE_ON_HOVER = "accelerate";
+    const DECELERATE_ON_HOVER = "decelerate";
+    const PAUSE_ON_HOVER = "pause";
+    const DEFAULT_DURATION = 30;
+    const DEFAULT_DYNAMIC_DURATION = 5;
+    const wraps = document.querySelectorAll(WRAP);
+    if (wraps.length === 0) return;
+    wraps.forEach((wrap) => {
+      let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
+      if (runOnBreakpoint === false) return;
+      const lists = [...wrap.querySelectorAll(LIST)];
+      let vertical = attr(false, wrap.getAttribute(VERTICAL));
+      let reverse = attr(false, wrap.getAttribute(REVERSE));
+      let duration = attr(DEFAULT_DURATION, wrap.getAttribute(DURATION));
+      let durationDynamic = attr(false, wrap.getAttribute(DYNAMIC_DURATION));
+      let durationPerItem = attr(DEFAULT_DYNAMIC_DURATION, wrap.getAttribute(DURATION_PER_ITEM));
+      let itemCount = lists[0].childElementCount;
+      if (itemCount === 1) {
+        itemCount = lists[0].firstElementChild.childElementCount;
+      }
+      if (durationDynamic) {
+        duration = itemCount * durationPerItem;
+      }
+      let hoverEffect = attr("none", wrap.getAttribute(HOVER_EFFECT));
+      let direction = 1;
+      if (reverse) {
+        direction = -1;
+      }
+      let tl = gsap.timeline({
+        repeat: -1,
+        defaults: {
+          ease: "none"
+        }
+      });
+      tl.fromTo(
+        lists,
+        {
+          xPercent: 0,
+          yPercent: 0
+        },
+        {
+          // if vertical is true move yPercent, otherwise move x percent
+          xPercent: vertical ? 0 : -100 * direction,
+          yPercent: vertical ? -100 * direction : 0,
+          duration
+        }
+      );
+      if (hoverEffect === ACCELERATE_ON_HOVER) {
+        wrap.addEventListener("mouseenter", (event) => {
+          tl.timeScale(2);
+        });
+        wrap.addEventListener("mouseleave", (event) => {
+          tl.timeScale(1);
+        });
+      }
+      if (hoverEffect === DECELERATE_ON_HOVER) {
+        wrap.addEventListener("mouseenter", (event) => {
+          tl.timeScale(0.5);
+        });
+        wrap.addEventListener("mouseleave", (event) => {
+          tl.timeScale(1);
+        });
+      }
+      if (hoverEffect === PAUSE_ON_HOVER) {
+        wrap.addEventListener("mouseenter", (event) => {
+          tl.pause();
+        });
+        wrap.addEventListener("mouseleave", (event) => {
+          tl.play();
+        });
+      }
+    });
+  };
+
+  // src/interactions/hover-active.js
+  var hoverActive = function(gsapContext) {
+    const ANIMATION_ID = "hoveractive";
+    const WRAP = '[data-ix-hoveractive="wrap"]';
+    const TRIGGER = '[data-ix-hoveractive="trigger"]';
+    const TARGET = '[data-ix-hoveractive="target"]';
+    const ID = "data-ix-hoveractive-id";
+    const OPTION_ACTIVE_CLASS = "data-ix-hoveractive-class";
+    const OPTION_KEEP_ACTIVE = "data-ix-hoveractive-keep-active";
+    const ACTIVE_CLASS = "is-active";
+    const hoverActiveList = function(listElement) {
+      const children = [...listElement.querySelectorAll(TRIGGER)];
+      let activeClass2 = attr(ACTIVE_CLASS, listElement.getAttribute(OPTION_ACTIVE_CLASS));
+      let keepActive = attr(false, listElement.getAttribute(OPTION_KEEP_ACTIVE));
+      function activateItem(item2, activate = true) {
+        let hasTarget = true;
+        activeClass2 = attr(activeClass2, item2.getAttribute(OPTION_ACTIVE_CLASS));
+        const itemID = item2.getAttribute(ID);
+        const targetEl = listElement.querySelector(`${TARGET}[${ID}="${itemID}"]`);
+        if (!itemID || !targetEl) {
+          hasTarget = false;
+        }
+        if (activate) {
+          item2.classList.add(activeClass2);
+          if (hasTarget) {
+            targetEl.classList.add(activeClass2);
+          }
+        } else {
+          item2.classList.remove(activeClass2);
+          if (hasTarget) {
+            targetEl.classList.remove(activeClass2);
+          }
+        }
+      }
+      children.forEach((currentItem) => {
+        currentItem.addEventListener("mouseover", function(e2) {
+          children.forEach((child) => {
+            if (child === currentItem) {
+              activateItem(currentItem, true);
+            } else {
+              activateItem(child, false);
+            }
+          });
+        });
+        currentItem.addEventListener("mouseleave", function(e2) {
+          if (!keepActive) {
+            activateItem(currentItem, false);
+          }
+        });
+      });
+    };
+    const wraps = [...document.querySelectorAll(WRAP)];
+    if (wraps.length >= 0) {
+      wraps.forEach((wrap) => {
+        let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
+        if (runOnBreakpoint === false) return;
+        hoverActiveList(wrap);
+      });
+    } else {
+      const body = document.querySelector("body");
+      hoverActiveList(body);
+    }
+  };
+
+  // node_modules/@studio-freight/lenis/dist/lenis.mjs
+  function t(t2, e2, i) {
+    return Math.max(t2, Math.min(e2, i));
+  }
+  var Animate = class {
+    advance(e2) {
+      if (!this.isRunning) return;
+      let i = false;
+      if (this.lerp) this.value = (s = this.value, o = this.to, n = 60 * this.lerp, r = e2, function(t2, e3, i2) {
+        return (1 - i2) * t2 + i2 * e3;
+      }(s, o, 1 - Math.exp(-n * r))), Math.round(this.value) === this.to && (this.value = this.to, i = true);
+      else {
+        this.currentTime += e2;
+        const s2 = t(0, this.currentTime / this.duration, 1);
+        i = s2 >= 1;
+        const o2 = i ? 1 : this.easing(s2);
+        this.value = this.from + (this.to - this.from) * o2;
+      }
+      var s, o, n, r;
+      this.onUpdate?.(this.value, i), i && this.stop();
+    }
+    stop() {
+      this.isRunning = false;
+    }
+    fromTo(t2, e2, { lerp: i = 0.1, duration: s = 1, easing: o = (t3) => t3, onStart: n, onUpdate: r }) {
+      this.from = this.value = t2, this.to = e2, this.lerp = i, this.duration = s, this.easing = o, this.currentTime = 0, this.isRunning = true, n?.(), this.onUpdate = r;
+    }
+  };
+  var Dimensions = class {
+    constructor({ wrapper: t2, content: e2, autoResize: i = true, debounce: s = 250 } = {}) {
+      this.wrapper = t2, this.content = e2, i && (this.debouncedResize = /* @__PURE__ */ function(t3, e3) {
+        let i2;
+        return function() {
+          let s2 = arguments, o = this;
+          clearTimeout(i2), i2 = setTimeout(function() {
+            t3.apply(o, s2);
+          }, e3);
+        };
+      }(this.resize, s), this.wrapper === window ? window.addEventListener("resize", this.debouncedResize, false) : (this.wrapperResizeObserver = new ResizeObserver(this.debouncedResize), this.wrapperResizeObserver.observe(this.wrapper)), this.contentResizeObserver = new ResizeObserver(this.debouncedResize), this.contentResizeObserver.observe(this.content)), this.resize();
+    }
+    destroy() {
+      this.wrapperResizeObserver?.disconnect(), this.contentResizeObserver?.disconnect(), window.removeEventListener("resize", this.debouncedResize, false);
+    }
+    resize = () => {
+      this.onWrapperResize(), this.onContentResize();
+    };
+    onWrapperResize = () => {
+      this.wrapper === window ? (this.width = window.innerWidth, this.height = window.innerHeight) : (this.width = this.wrapper.clientWidth, this.height = this.wrapper.clientHeight);
+    };
+    onContentResize = () => {
+      this.wrapper === window ? (this.scrollHeight = this.content.scrollHeight, this.scrollWidth = this.content.scrollWidth) : (this.scrollHeight = this.wrapper.scrollHeight, this.scrollWidth = this.wrapper.scrollWidth);
+    };
+    get limit() {
+      return { x: this.scrollWidth - this.width, y: this.scrollHeight - this.height };
+    }
+  };
+  var Emitter = class {
+    constructor() {
+      this.events = {};
+    }
+    emit(t2, ...e2) {
+      let i = this.events[t2] || [];
+      for (let t3 = 0, s = i.length; t3 < s; t3++) i[t3](...e2);
+    }
+    on(t2, e2) {
+      return this.events[t2]?.push(e2) || (this.events[t2] = [e2]), () => {
+        this.events[t2] = this.events[t2]?.filter((t3) => e2 !== t3);
+      };
+    }
+    off(t2, e2) {
+      this.events[t2] = this.events[t2]?.filter((t3) => e2 !== t3);
+    }
+    destroy() {
+      this.events = {};
+    }
+  };
+  var e = 100 / 6;
+  var VirtualScroll = class {
+    constructor(t2, { wheelMultiplier: e2 = 1, touchMultiplier: i = 1 }) {
+      this.element = t2, this.wheelMultiplier = e2, this.touchMultiplier = i, this.touchStart = { x: null, y: null }, this.emitter = new Emitter(), window.addEventListener("resize", this.onWindowResize, false), this.onWindowResize(), this.element.addEventListener("wheel", this.onWheel, { passive: false }), this.element.addEventListener("touchstart", this.onTouchStart, { passive: false }), this.element.addEventListener("touchmove", this.onTouchMove, { passive: false }), this.element.addEventListener("touchend", this.onTouchEnd, { passive: false });
+    }
+    on(t2, e2) {
+      return this.emitter.on(t2, e2);
+    }
+    destroy() {
+      this.emitter.destroy(), window.removeEventListener("resize", this.onWindowResize, false), this.element.removeEventListener("wheel", this.onWheel, { passive: false }), this.element.removeEventListener("touchstart", this.onTouchStart, { passive: false }), this.element.removeEventListener("touchmove", this.onTouchMove, { passive: false }), this.element.removeEventListener("touchend", this.onTouchEnd, { passive: false });
+    }
+    onTouchStart = (t2) => {
+      const { clientX: e2, clientY: i } = t2.targetTouches ? t2.targetTouches[0] : t2;
+      this.touchStart.x = e2, this.touchStart.y = i, this.lastDelta = { x: 0, y: 0 }, this.emitter.emit("scroll", { deltaX: 0, deltaY: 0, event: t2 });
+    };
+    onTouchMove = (t2) => {
+      const { clientX: e2, clientY: i } = t2.targetTouches ? t2.targetTouches[0] : t2, s = -(e2 - this.touchStart.x) * this.touchMultiplier, o = -(i - this.touchStart.y) * this.touchMultiplier;
+      this.touchStart.x = e2, this.touchStart.y = i, this.lastDelta = { x: s, y: o }, this.emitter.emit("scroll", { deltaX: s, deltaY: o, event: t2 });
+    };
+    onTouchEnd = (t2) => {
+      this.emitter.emit("scroll", { deltaX: this.lastDelta.x, deltaY: this.lastDelta.y, event: t2 });
+    };
+    onWheel = (t2) => {
+      let { deltaX: i, deltaY: s, deltaMode: o } = t2;
+      i *= 1 === o ? e : 2 === o ? this.windowWidth : 1, s *= 1 === o ? e : 2 === o ? this.windowHeight : 1, i *= this.wheelMultiplier, s *= this.wheelMultiplier, this.emitter.emit("scroll", { deltaX: i, deltaY: s, event: t2 });
+    };
+    onWindowResize = () => {
+      this.windowWidth = window.innerWidth, this.windowHeight = window.innerHeight;
+    };
+  };
+  var Lenis = class {
+    constructor({ wrapper: t2 = window, content: e2 = document.documentElement, wheelEventsTarget: i = t2, eventsTarget: s = i, smoothWheel: o = true, syncTouch: n = false, syncTouchLerp: r = 0.075, touchInertiaMultiplier: l = 35, duration: h, easing: a = (t3) => Math.min(1, 1.001 - Math.pow(2, -10 * t3)), lerp: c = !h && 0.1, infinite: d = false, orientation: p = "vertical", gestureOrientation: u = "vertical", touchMultiplier: m = 1, wheelMultiplier: v = 1, autoResize: g = true, __experimental__naiveDimensions: S = false } = {}) {
+      this.__isSmooth = false, this.__isScrolling = false, this.__isStopped = false, this.__isLocked = false, this.onVirtualScroll = ({ deltaX: t3, deltaY: e3, event: i2 }) => {
+        if (i2.ctrlKey) return;
+        const s2 = i2.type.includes("touch"), o2 = i2.type.includes("wheel");
+        if (this.options.syncTouch && s2 && "touchstart" === i2.type && !this.isStopped && !this.isLocked) return void this.reset();
+        const n2 = 0 === t3 && 0 === e3, r2 = "vertical" === this.options.gestureOrientation && 0 === e3 || "horizontal" === this.options.gestureOrientation && 0 === t3;
+        if (n2 || r2) return;
+        let l2 = i2.composedPath();
+        if (l2 = l2.slice(0, l2.indexOf(this.rootElement)), l2.find((t4) => {
+          var e4, i3, n3, r3, l3;
+          return (null === (e4 = t4.hasAttribute) || void 0 === e4 ? void 0 : e4.call(t4, "data-lenis-prevent")) || s2 && (null === (i3 = t4.hasAttribute) || void 0 === i3 ? void 0 : i3.call(t4, "data-lenis-prevent-touch")) || o2 && (null === (n3 = t4.hasAttribute) || void 0 === n3 ? void 0 : n3.call(t4, "data-lenis-prevent-wheel")) || (null === (r3 = t4.classList) || void 0 === r3 ? void 0 : r3.contains("lenis")) && !(null === (l3 = t4.classList) || void 0 === l3 ? void 0 : l3.contains("lenis-stopped"));
+        })) return;
+        if (this.isStopped || this.isLocked) return void i2.preventDefault();
+        if (this.isSmooth = this.options.syncTouch && s2 || this.options.smoothWheel && o2, !this.isSmooth) return this.isScrolling = false, void this.animate.stop();
+        i2.preventDefault();
+        let h2 = e3;
+        "both" === this.options.gestureOrientation ? h2 = Math.abs(e3) > Math.abs(t3) ? e3 : t3 : "horizontal" === this.options.gestureOrientation && (h2 = t3);
+        const a2 = s2 && this.options.syncTouch, c2 = s2 && "touchend" === i2.type && Math.abs(h2) > 5;
+        c2 && (h2 = this.velocity * this.options.touchInertiaMultiplier), this.scrollTo(this.targetScroll + h2, Object.assign({ programmatic: false }, a2 ? { lerp: c2 ? this.options.syncTouchLerp : 1 } : { lerp: this.options.lerp, duration: this.options.duration, easing: this.options.easing }));
+      }, this.onNativeScroll = () => {
+        if (!this.__preventNextScrollEvent && !this.isScrolling) {
+          const t3 = this.animatedScroll;
+          this.animatedScroll = this.targetScroll = this.actualScroll, this.velocity = 0, this.direction = Math.sign(this.animatedScroll - t3), this.emit();
+        }
+      }, window.lenisVersion = "1.0.42", t2 !== document.documentElement && t2 !== document.body || (t2 = window), this.options = { wrapper: t2, content: e2, wheelEventsTarget: i, eventsTarget: s, smoothWheel: o, syncTouch: n, syncTouchLerp: r, touchInertiaMultiplier: l, duration: h, easing: a, lerp: c, infinite: d, gestureOrientation: u, orientation: p, touchMultiplier: m, wheelMultiplier: v, autoResize: g, __experimental__naiveDimensions: S }, this.animate = new Animate(), this.emitter = new Emitter(), this.dimensions = new Dimensions({ wrapper: t2, content: e2, autoResize: g }), this.toggleClassName("lenis", true), this.velocity = 0, this.isLocked = false, this.isStopped = false, this.isSmooth = n || o, this.isScrolling = false, this.targetScroll = this.animatedScroll = this.actualScroll, this.options.wrapper.addEventListener("scroll", this.onNativeScroll, false), this.virtualScroll = new VirtualScroll(s, { touchMultiplier: m, wheelMultiplier: v }), this.virtualScroll.on("scroll", this.onVirtualScroll);
+    }
+    destroy() {
+      this.emitter.destroy(), this.options.wrapper.removeEventListener("scroll", this.onNativeScroll, false), this.virtualScroll.destroy(), this.dimensions.destroy(), this.toggleClassName("lenis", false), this.toggleClassName("lenis-smooth", false), this.toggleClassName("lenis-scrolling", false), this.toggleClassName("lenis-stopped", false), this.toggleClassName("lenis-locked", false);
+    }
+    on(t2, e2) {
+      return this.emitter.on(t2, e2);
+    }
+    off(t2, e2) {
+      return this.emitter.off(t2, e2);
+    }
+    setScroll(t2) {
+      this.isHorizontal ? this.rootElement.scrollLeft = t2 : this.rootElement.scrollTop = t2;
+    }
+    resize() {
+      this.dimensions.resize();
+    }
+    emit() {
+      this.emitter.emit("scroll", this);
+    }
+    reset() {
+      this.isLocked = false, this.isScrolling = false, this.animatedScroll = this.targetScroll = this.actualScroll, this.velocity = 0, this.animate.stop();
+    }
+    start() {
+      this.isStopped && (this.isStopped = false, this.reset());
+    }
+    stop() {
+      this.isStopped || (this.isStopped = true, this.animate.stop(), this.reset());
+    }
+    raf(t2) {
+      const e2 = t2 - (this.time || t2);
+      this.time = t2, this.animate.advance(1e-3 * e2);
+    }
+    scrollTo(e2, { offset: i = 0, immediate: s = false, lock: o = false, duration: n = this.options.duration, easing: r = this.options.easing, lerp: l = !n && this.options.lerp, onComplete: h, force: a = false, programmatic: c = true } = {}) {
+      if (!this.isStopped && !this.isLocked || a) {
+        if (["top", "left", "start"].includes(e2)) e2 = 0;
+        else if (["bottom", "right", "end"].includes(e2)) e2 = this.limit;
+        else {
+          let t2;
+          if ("string" == typeof e2 ? t2 = document.querySelector(e2) : (null == e2 ? void 0 : e2.nodeType) && (t2 = e2), t2) {
+            if (this.options.wrapper !== window) {
+              const t3 = this.options.wrapper.getBoundingClientRect();
+              i -= this.isHorizontal ? t3.left : t3.top;
+            }
+            const s2 = t2.getBoundingClientRect();
+            e2 = (this.isHorizontal ? s2.left : s2.top) + this.animatedScroll;
+          }
+        }
+        if ("number" == typeof e2) {
+          if (e2 += i, e2 = Math.round(e2), this.options.infinite ? c && (this.targetScroll = this.animatedScroll = this.scroll) : e2 = t(0, e2, this.limit), s) return this.animatedScroll = this.targetScroll = e2, this.setScroll(this.scroll), this.reset(), void (null == h || h(this));
+          if (!c) {
+            if (e2 === this.targetScroll) return;
+            this.targetScroll = e2;
+          }
+          this.animate.fromTo(this.animatedScroll, e2, { duration: n, easing: r, lerp: l, onStart: () => {
+            o && (this.isLocked = true), this.isScrolling = true;
+          }, onUpdate: (t2, e3) => {
+            this.isScrolling = true, this.velocity = t2 - this.animatedScroll, this.direction = Math.sign(this.velocity), this.animatedScroll = t2, this.setScroll(this.scroll), c && (this.targetScroll = t2), e3 || this.emit(), e3 && (this.reset(), this.emit(), null == h || h(this), this.__preventNextScrollEvent = true, requestAnimationFrame(() => {
+              delete this.__preventNextScrollEvent;
+            }));
+          } });
+        }
+      }
+    }
+    get rootElement() {
+      return this.options.wrapper === window ? document.documentElement : this.options.wrapper;
+    }
+    get limit() {
+      return this.options.__experimental__naiveDimensions ? this.isHorizontal ? this.rootElement.scrollWidth - this.rootElement.clientWidth : this.rootElement.scrollHeight - this.rootElement.clientHeight : this.dimensions.limit[this.isHorizontal ? "x" : "y"];
+    }
+    get isHorizontal() {
+      return "horizontal" === this.options.orientation;
+    }
+    get actualScroll() {
+      return this.isHorizontal ? this.rootElement.scrollLeft : this.rootElement.scrollTop;
+    }
+    get scroll() {
+      return this.options.infinite ? (t2 = this.animatedScroll, e2 = this.limit, (t2 % e2 + e2) % e2) : this.animatedScroll;
+      var t2, e2;
+    }
+    get progress() {
+      return 0 === this.limit ? 1 : this.scroll / this.limit;
+    }
+    get isSmooth() {
+      return this.__isSmooth;
+    }
+    set isSmooth(t2) {
+      this.__isSmooth !== t2 && (this.__isSmooth = t2, this.toggleClassName("lenis-smooth", t2));
+    }
+    get isScrolling() {
+      return this.__isScrolling;
+    }
+    set isScrolling(t2) {
+      this.__isScrolling !== t2 && (this.__isScrolling = t2, this.toggleClassName("lenis-scrolling", t2));
+    }
+    get isStopped() {
+      return this.__isStopped;
+    }
+    set isStopped(t2) {
+      this.__isStopped !== t2 && (this.__isStopped = t2, this.toggleClassName("lenis-stopped", t2));
+    }
+    get isLocked() {
+      return this.__isLocked;
+    }
+    set isLocked(t2) {
+      this.__isLocked !== t2 && (this.__isLocked = t2, this.toggleClassName("lenis-locked", t2));
+    }
+    get className() {
+      let t2 = "lenis";
+      return this.isStopped && (t2 += " lenis-stopped"), this.isLocked && (t2 += " lenis-locked"), this.isScrolling && (t2 += " lenis-scrolling"), this.isSmooth && (t2 += " lenis-smooth"), t2;
+    }
+    toggleClassName(t2, e2) {
+      this.rootElement.classList.toggle(t2, e2), this.emitter.emit("className change", this);
+    }
+  };
+
+  // src/interactions/lenis.js
+  var initLenis = function() {
+    const lenis = new Lenis({
+      duration: 0.5,
+      wheelMultiplier: 0.75,
+      gestureOrientation: "vertical",
+      normalizeWheel: false,
+      smoothTouch: false,
+      easing: (t2) => t2 === 1 ? 1 : 1 - Math.pow(2, -10 * t2)
+      // https://easings.net
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    lenis.on("scroll", () => {
+      if (!ScrollTrigger) return;
+      ScrollTrigger.update();
+    });
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1e3);
+    });
+    gsap.ticker.lagSmoothing(0);
+    let resizeTimeout;
+    function refreshLenisTimeout(delay = 600) {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        requestAnimationFrame(() => {
+          lenis.resize();
+          console.log("refresh");
+        });
+      }, delay);
+    }
+    function refreshScroll() {
+      const triggers = [...document.querySelectorAll('[data-scroll="refresh"]')];
+      if (triggers.length === 0) return;
+      triggers.forEach((item2) => {
+        if (!item2) return;
+        item2.addEventListener("click", (event) => {
+          refreshLenisTimeout();
+        });
+      });
+    }
+    refreshScroll();
+    function refreshScrollOnLazyLoad() {
+      const images = [...document.querySelectorAll("img[loading='lazy']")];
+      if (images.length === 0) return;
+      images.forEach((img) => {
+        img.addEventListener("load", refreshLenisTimeout);
+      });
+    }
+    function stopScroll() {
+      const stopScrollLinks = document.querySelectorAll('[data-scroll="stop"]');
+      if (stopScrollLinks == null) {
+        return;
+      }
+      stopScrollLinks.forEach((item2) => {
+        item2.addEventListener("click", (event) => {
+          lenis.stop();
+        });
+      });
+    }
+    stopScroll();
+    function startScroll() {
+      const startScrollLinks = document.querySelectorAll('[data-scroll="start"]');
+      if (startScrollLinks == null) {
+        return;
+      }
+      startScrollLinks.forEach((item2) => {
+        item2.addEventListener("click", (event) => {
+          lenis.start();
+        });
+      });
+    }
+    startScroll();
+    function toggleScroll() {
+      const toggleScrollLinks = document.querySelectorAll('[data-scroll="toggle"]');
+      if (toggleScrollLinks == null) {
+        return;
+      }
+      toggleScrollLinks.forEach((item2) => {
+        let stopScroll2 = false;
+        item2.addEventListener("click", (event) => {
+          stopScroll2 = !stopScroll2;
+          if (stopScroll2) lenis.stop();
+          else lenis.start();
+        });
+      });
+    }
+    toggleScroll();
+    return lenis;
+  };
+
+  // src/index.js
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("Local Script");
+    if (gsap.ScrollTrigger !== void 0) {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    if (gsap.Flip !== void 0) {
+      gsap.registerPlugin(Flip);
+    }
+    let lenis;
+    const gsapInit = function() {
+      let mm = gsap.matchMedia();
+      mm.add(
+        {
+          //This is the conditions object
+          isMobile: "(max-width: 767px)",
+          isTablet: "(min-width: 768px)  and (max-width: 991px)",
+          isDesktop: "(min-width: 992px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)"
+        },
+        (gsapContext) => {
+          let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
+          lenis = initLenis();
+          load(gsapContext);
+          hoverActive(gsapContext);
+          accordion(gsapContext);
+          marquee(gsapContext);
+          if (!reduceMotion) {
+            scrollIn(gsapContext);
+            scrolling(gsapContext);
+            mouseOver(gsapContext);
+            loop(gsapContext);
+          }
+        }
+      );
+    };
+    gsapInit();
+    const scrollReset = function() {
+      const RESET_EL = "[data-ix-reset]";
+      const RESET_TIME = "data-ix-reset-time";
+      const resetScrollTriggers = document.querySelectorAll(RESET_EL);
+      resetScrollTriggers.forEach(function(item2) {
+        item2.addEventListener("click", function(e2) {
+          ScrollTrigger.refresh();
+          if (item2.hasAttribute(RESET_TIME)) {
+            let time = attr(1e3, item2.getAttribute(RESET_TIME));
+            setTimeout(() => {
+              ScrollTrigger.refresh();
+            }, time);
+          }
+        });
+      });
+    };
+    scrollReset();
+    const updaterFooterYear = function() {
+      const YEAR_SELECTOR = "[data-footer-year]";
+      const yearSpan = document.querySelector(YEAR_SELECTOR);
+      if (!yearSpan) return;
+      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+      yearSpan.innerText = currentYear.toString();
+    };
+    updaterFooterYear();
+  });
+})();
