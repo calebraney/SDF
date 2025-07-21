@@ -162,3 +162,26 @@ export class ClassWatcher {
     }
   };
 }
+
+//utility for finding children of an element without display: contents
+// will go down layer by layer until it finds children without that value.
+export function getNonContentsChildren(item) {
+  if (!item || !(item instanceof Element)) return [];
+
+  const result = [];
+
+  function processChildren(parent) {
+    const children = Array.from(parent.children);
+    for (const child of children) {
+      const display = window.getComputedStyle(child).display;
+      if (display === 'contents') {
+        processChildren(child); // Recurse into children of 'contents' elements
+      } else {
+        result.push(child); // Keep non-'contents' element
+      }
+    }
+  }
+
+  processChildren(item);
+  return result;
+}

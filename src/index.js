@@ -1,7 +1,12 @@
 import { attr } from './utilities';
-import { scrollIn } from './interactions/scroll-in';
-import { marquee } from './interactions/marquee';
 import { accordion } from './interactions/accordion';
+import { load } from './interactions/load';
+import { loop } from './interactions/loop';
+import { scrollIn } from './interactions/scroll-in';
+import { scrolling } from './interactions/scrolling';
+import { marquee } from './interactions/marquee';
+import { hoverActive } from './interactions/hover-active';
+import { initLenis } from './interactions/lenis';
 
 document.addEventListener('DOMContentLoaded', function () {
   // Comment out for production
@@ -16,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   //////////////////////////////
   //Global Variables
-
+  let lenis;
   //////////////////////////////
   //Control Functions on page load
   const gsapInit = function () {
@@ -32,11 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
       (gsapContext) => {
         let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
         //functional interactions
+        lenis = initLenis();
+        load(gsapContext);
+        hoverActive(gsapContext);
         accordion(gsapContext);
         marquee(gsapContext);
         //conditional interactions
         if (!reduceMotion) {
           scrollIn(gsapContext);
+          scrolling(gsapContext);
+          loop(gsapContext);
         }
       }
     );

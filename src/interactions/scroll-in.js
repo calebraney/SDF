@@ -1,11 +1,13 @@
-import { attr, checkBreakpoints, runSplit, getClipDirection } from '../utilities';
+import { attr, checkBreakpoints, getNonContentsChildren, getClipDirection } from '../utilities';
 
 export const scrollIn = function (gsapContext) {
   //animation ID
   const ANIMATION_ID = 'scrollin';
   // selectors
+  const ATTRIBUTE = 'data-ix-scrollin';
   const ELEMENT = 'data-ix-scrollin';
   // types of scrolling elements (value for scrollin element attribute)
+  const WRAP = 'wrap';
   const HEADING = 'heading';
   const ITEM = 'item';
   const CONTAINER = 'container';
@@ -62,11 +64,11 @@ export const scrollIn = function (gsapContext) {
   //resuable timeline creation with option attributes for individual customization per element
   const defaultTween = function (item, tl, options = {}) {
     const varsFrom = {
-      opacity: 0,
+      autoAlpha: 0,
       y: '2rem',
     };
     const varsTo = {
-      opacity: 1,
+      autoAlpha: 1,
       y: '0rem',
     };
     //optional adjustments to the tween
@@ -95,6 +97,10 @@ export const scrollIn = function (gsapContext) {
     //split the text
     SplitText.create(item, {
       type: 'words', // 'chars, words, lines
+      // linesClass: "line",
+      wordsClass: 'word',
+      // charsClass: "char",
+      // mask: 'lines',
       autoSplit: true, //have it auto adjust based on width
       // mask: 'lines',
       onSplit(self) {
@@ -193,19 +199,12 @@ export const scrollIn = function (gsapContext) {
 
   const scrollInStagger = function (item) {
     if (!item) return;
-    let parent = item;
-    //check if item is display: 'contents'
-    const style = window.getComputedStyle(item);
-    const display = style.getPropertyValue('display');
-    //if item is display contents base the timeline on the parent element
-    if (display === 'contents') {
-      parent = item.parentElement;
-    }
     const staggerAmount = attr(EASE_LARGE, item.getAttribute(SCROLL_STAGGER));
-    // get the children of the item
-    const children = gsap.utils.toArray(item.children);
+    // get the children of the item  without display contents
+    let children = getNonContentsChildren(item);
+    // const children = gsap.utils.toArray(item.children);
     if (children.length === 0) return;
-    const tl = scrollInTL(parent);
+    const tl = scrollInTL(item);
     const tween = defaultTween(children, tl, { stagger: staggerAmount });
   };
 
@@ -228,35 +227,42 @@ export const scrollIn = function (gsapContext) {
     });
   };
 
-  //get all elements and apply animations
-  const items = gsap.utils.toArray(`[${ELEMENT}]`);
-  items.forEach((item) => {
-    if (!item) return;
-    //check breakpoints and quit function if set on specific breakpoints
-    let runOnBreakpoint = checkBreakpoints(item, ANIMATION_ID, gsapContext);
-    if (runOnBreakpoint === false) return;
-    //find the type of the scrolling animation
-    const scrollInType = item.getAttribute(ELEMENT);
-    if (scrollInType === HEADING) {
-      scrollInHeading(item);
-    }
-    if (scrollInType === ITEM) {
-      scrollInItem(item);
-    }
-    if (scrollInType === IMAGE) {
-      scrollInImage(item);
-    }
-    if (scrollInType === LINE) {
-      scrollInLine(item);
-    }
-    if (scrollInType === CONTAINER) {
-      scrollInContainer(item);
-    }
-    if (scrollInType === STAGGER) {
-      scrollInStagger(item);
-    }
-    if (scrollInType === RICH_TEXT) {
-      scrollInRichText(item);
-    }
+  //get sections
+  const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+  wraps.forEach((wrap) => {
+    //check breakpoints and exit if set to false
+    let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
+    if (runOnBreakpoint === false && wrap.getAttribute('data-ix-load-run') === 'false') return;
+
+    //get all items within the section
+    const items = [...wrap.querySelectorAll(`[${ATTRIBUTE}]:not([${ATTRIBUTE}-run="false"])`)];
+    if (items.length === 0) return;
+    //get all elements and apply animations
+    items.forEach((item) => {
+      if (!item) return;
+      //find the type of the scrolling animation
+      const scrollInType = item.getAttribute(ELEMENT);
+      if (scrollInType === HEADING) {
+        scrollInHeading(item);
+      }
+      if (scrollInType === ITEM) {
+        scrollInItem(item);
+      }
+      if (scrollInType === IMAGE) {
+        scrollInImage(item);
+      }
+      if (scrollInType === LINE) {
+        scrollInLine(item);
+      }
+      if (scrollInType === CONTAINER) {
+        scrollInContainer(item);
+      }
+      if (scrollInType === STAGGER) {
+        scrollInStagger(item);
+      }
+      if (scrollInType === RICH_TEXT) {
+        scrollInRichText(item);
+      }
+    });
   });
 };
