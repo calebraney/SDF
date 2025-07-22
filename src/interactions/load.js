@@ -28,7 +28,8 @@ export const load = function (gsapContext) {
   //array of load section timelines
   let loadTimelines = [];
   //get sections
-  const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+  const wraps = [...document.querySelectorAll(`[${ATTRIBUTE}="${WRAP}"]`)];
+  if (wraps.length === 0) return;
   wraps.forEach((wrap) => {
     //check breakpoints and exit if set to false
     let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);

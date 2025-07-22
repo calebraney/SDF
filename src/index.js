@@ -23,6 +23,130 @@ document.addEventListener('DOMContentLoaded', function () {
   //////////////////////////////
   //Global Variables
   let lenis;
+
+  const menu = function (gsapContext) {
+    const ANIMATION_ID = 'menu';
+    const MENU_WRAP = `[data-ix-menu="wrap"]`;
+    const MENU_ITEM = `[data-ix-menu="item"]`;
+    const MENU_LINK = `[data-ix-menu="link"]`;
+    const MENU_TEXT_WRAP = `[data-ix-menu="text-wrap"]`;
+    const MENU_NUMBER = 'data-ix-menu-number';
+    const ACTIVE_CLASS = 'is-active';
+    const HOVER_CLASS = 'is-hovered';
+    const OPEN_CLASS = 'is-open';
+
+    const menuWrap = document.querySelector(MENU_WRAP);
+    const menuItems = gsap.utils.toArray(MENU_ITEM);
+    const menuLinks = gsap.utils.toArray(MENU_LINK);
+    if (menuItems.length === 0 || menuLinks.length === 0 || !menuWrap) return;
+
+    //function to hover menu items
+    const hoverMenuItem = function (activeItem, active = true) {
+      // get target of flip
+      const flipItems = gsap.utils.toArray([MENU_LINK, MENU_TEXT_WRAP]);
+      //get state of items
+      const state = Flip.getState(flipItems, {
+        // props: 'width,height,margin',
+        nested: true,
+        absolute: true,
+      });
+      if (active) {
+        activeItem.classList.add(HOVER_CLASS);
+      } else {
+        activeItem.classList.remove(HOVER_CLASS);
+      }
+      // animate element
+      Flip.from(state, {
+        duration: 0.5,
+        ease: 'power1.out',
+      });
+    };
+
+    //add hover class for menu items when item is hovered
+    menuLinks.forEach((link) => {
+      link.addEventListener('mouseenter', function (e) {
+        hoverMenuItem(link);
+      });
+      link.addEventListener('mouseleave', function (e) {
+        hoverMenuItem(link, false);
+      });
+    });
+
+    //function to activate menu items
+    // const activateMenuItem = function (activeItem) {
+    //   // get target of flip
+    //   const flipItems = gsap.utils.toArray([MENU_SUB_LIST]);
+    //   //get state of items
+    //   const state = Flip.getState(flipItems, {
+    //     props: 'margin,height',
+    //     nested: true,
+    //     absolute: true,
+    //   });
+    //   menuItems.forEach((item) => {
+    //     //if the item is the active one add the class otherwise remove it
+    //     if (item === activeItem) {
+    //       item.classList.add(ACTIVE_CLASS);
+    //     } else {
+    //       item.classList.remove(ACTIVE_CLASS);
+    //     }
+    //   });
+    //   // animate element
+    //   Flip.from(state, {
+    //     duration: 0.5,
+    //     ease: 'power1.out',
+    //   });
+    // };
+
+    // // hide and show menu in specific sections
+    // const anchorItems = gsap.utils.toArray(MENU_ANCHORS);
+    // anchorItems.forEach((item) => {
+    //   //get the attribute values for the numbers in question
+    //   let numberTopAttribute = item.firstChild?.getAttribute(MENU_TARGET_ABOVE);
+    //   let numberBotAttribute = item.firstChild?.getAttribute(MENU_TARGET_BELOW);
+    //   // if attributes exist get their numbers
+    //   if (!numberTopAttribute || !numberBotAttribute) return;
+    //   let topTargetNumber = attr(0, numberTopAttribute);
+    //   let bottomTargetNumber = attr(0, numberBotAttribute);
+
+    //   //resuable function for the scroll anchors
+    //   const activateTop = function () {
+    //     if (topTargetNumber === 0) {
+    //       // if the enter target is zero open the menu
+    //       menuWrap.classList.remove(OPEN_CLASS);
+    //     }
+    //     if (0 < topTargetNumber && topTargetNumber < 6) {
+    //       menuWrap.classList.add(OPEN_CLASS);
+    //       const topTarget = document.querySelector(`[${MENU_NUMBER}="${topTargetNumber}"]`);
+    //       if (!topTarget) return;
+    //       activateMenuItem(topTarget);
+    //     }
+    //   };
+    //   const activateBottom = function () {
+    //     if (bottomTargetNumber === 0) {
+    //       // if the enter target is zero open the menu
+    //       menuWrap.classList.remove(OPEN_CLASS);
+    //     }
+    //     if (0 < bottomTargetNumber && bottomTargetNumber < 6) {
+    //       menuWrap.classList.add(OPEN_CLASS);
+    //       const bottomTarget = document.querySelector(`[${MENU_NUMBER}="${bottomTargetNumber}"]`);
+    //       if (!bottomTarget) return;
+    //       activateMenuItem(bottomTarget);
+    //     }
+    //   };
+    //   ScrollTrigger.create({
+    //     trigger: item,
+    //     markers: false,
+    //     start: 'center 0%',
+    //     end: 'center 1%',
+    //     onEnter: () => {
+    //       activateBottom();
+    //     },
+    //     onEnterBack: () => {
+    //       activateTop();
+    //     },
+    //   });
+    // });
+  };
   //////////////////////////////
   //Control Functions on page load
   const gsapInit = function () {
@@ -39,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
         //functional interactions
         lenis = initLenis();
+        menu();
         load(gsapContext);
         hoverActive(gsapContext);
         accordion(gsapContext);

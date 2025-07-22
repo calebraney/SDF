@@ -184,7 +184,8 @@
     const POSITION = "data-ix-load-position";
     const DEFAULT_STAGGER = "<0.2";
     let loadTimelines = [];
-    const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+    const wraps = [...document.querySelectorAll(`[${ATTRIBUTE}="${WRAP}"]`)];
+    if (wraps.length === 0) return;
     wraps.forEach((wrap) => {
       let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
       if (runOnBreakpoint === false) return;
@@ -574,7 +575,8 @@
         }
       });
     };
-    const wraps = gsap.utils.toArray(`[${ATTRIBUTE}="${WRAP}"]`);
+    const wraps = [...document.querySelectorAll(`[${ATTRIBUTE}="${WRAP}"]`)];
+    if (wraps.length === 0) return;
     wraps.forEach((wrap) => {
       let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
       if (runOnBreakpoint === false && wrap.getAttribute("data-ix-load-run") === "false") return;
@@ -1311,6 +1313,46 @@
       gsap.registerPlugin(Flip);
     }
     let lenis;
+    const menu = function(gsapContext) {
+      const ANIMATION_ID = "menu";
+      const MENU_WRAP = `[data-ix-menu="wrap"]`;
+      const MENU_ITEM = `[data-ix-menu="item"]`;
+      const MENU_LINK = `[data-ix-menu="link"]`;
+      const MENU_TEXT_WRAP = `[data-ix-menu="text-wrap"]`;
+      const MENU_NUMBER = "data-ix-menu-number";
+      const ACTIVE_CLASS = "is-active";
+      const HOVER_CLASS = "is-hovered";
+      const OPEN_CLASS = "is-open";
+      const menuWrap = document.querySelector(MENU_WRAP);
+      const menuItems = gsap.utils.toArray(MENU_ITEM);
+      const menuLinks = gsap.utils.toArray(MENU_LINK);
+      if (menuItems.length === 0 || menuLinks.length === 0 || !menuWrap) return;
+      const hoverMenuItem = function(activeItem, active = true) {
+        const flipItems = gsap.utils.toArray([MENU_LINK, MENU_TEXT_WRAP]);
+        const state = Flip.getState(flipItems, {
+          // props: 'width,height,margin',
+          nested: true,
+          absolute: true
+        });
+        if (active) {
+          activeItem.classList.add(HOVER_CLASS);
+        } else {
+          activeItem.classList.remove(HOVER_CLASS);
+        }
+        Flip.from(state, {
+          duration: 0.5,
+          ease: "power1.out"
+        });
+      };
+      menuLinks.forEach((link) => {
+        link.addEventListener("mouseenter", function(e2) {
+          hoverMenuItem(link);
+        });
+        link.addEventListener("mouseleave", function(e2) {
+          hoverMenuItem(link, false);
+        });
+      });
+    };
     const gsapInit = function() {
       let mm = gsap.matchMedia();
       mm.add(
@@ -1324,6 +1366,7 @@
         (gsapContext) => {
           let { isMobile, isTablet, isDesktop, reduceMotion } = gsapContext.conditions;
           lenis = initLenis();
+          menu();
           load(gsapContext);
           hoverActive(gsapContext);
           accordion(gsapContext);
