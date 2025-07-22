@@ -27,23 +27,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const menu = function (gsapContext) {
     const ANIMATION_ID = 'menu';
     const MENU_WRAP = `[data-ix-menu="wrap"]`;
-    const MENU_ITEM = `[data-ix-menu="item"]`;
     const MENU_LINK = `[data-ix-menu="link"]`;
     const MENU_TEXT_WRAP = `[data-ix-menu="text-wrap"]`;
-    const MENU_NUMBER = 'data-ix-menu-number';
     const ACTIVE_CLASS = 'is-active';
     const HOVER_CLASS = 'is-hovered';
     const OPEN_CLASS = 'is-open';
 
     const menuWrap = document.querySelector(MENU_WRAP);
-    const menuItems = gsap.utils.toArray(MENU_ITEM);
-    const menuLinks = gsap.utils.toArray(MENU_LINK);
-    if (menuItems.length === 0 || menuLinks.length === 0 || !menuWrap) return;
+    const menuLinks = [...document.querySelectorAll(MENU_LINK)];
+    if (menuLinks.length === 0 || !menuWrap) return;
 
     //function to hover menu items
     const hoverMenuItem = function (activeItem, active = true) {
       // get target of flip
-      const flipItems = gsap.utils.toArray([MENU_LINK, MENU_TEXT_WRAP]);
+      const textWrap = activeItem.querySelector(MENU_TEXT_WRAP);
+      const flipItems = [activeItem, textWrap];
+
       //get state of items
       const state = Flip.getState(flipItems, {
         // props: 'width,height,margin',
@@ -58,13 +57,14 @@ document.addEventListener('DOMContentLoaded', function () {
       // animate element
       Flip.from(state, {
         duration: 0.5,
-        ease: 'power1.out',
+        ease: 'power2.inOut',
       });
     };
 
     //add hover class for menu items when item is hovered
     menuLinks.forEach((link) => {
       link.addEventListener('mouseenter', function (e) {
+        console.log(link);
         hoverMenuItem(link);
       });
       link.addEventListener('mouseleave', function (e) {
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
         hoverActive(gsapContext);
         accordion(gsapContext);
         marquee(gsapContext);
-        //conditional interactions
+        // conditional interactions
         if (!reduceMotion) {
           scrollIn(gsapContext);
           scrolling(gsapContext);

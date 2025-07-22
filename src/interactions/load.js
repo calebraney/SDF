@@ -1,13 +1,14 @@
 import { attr, checkBreakpoints, runSplit } from '../utilities';
 /* CSS in PAGE Head
 
-:is([data-ix-load="wrap"][data-ix-load-run="true"]) {
+
+[data-ix-load="wrap"]:not([data-ix-load-run="false"]) {
 	visibility: hidden;
 }
-[data-ix-load="wrap"][data-ix-load-run="true"] :is([data-ix-load], [data-ix-load="stagger"]  > *) {
+[data-ix-load="wrap"]:not([data-ix-load-run="false"]) :is([data-ix-load]:not([data-ix-load-run="false"]), [data-ix-load="stagger"]:not([data-ix-load-run="false"])  > *) {
 	visibility: hidden;
 }
-html:is(.w-editor, .gsap-not-found) :is([data-ix-load-run]){visibility: visible;} 
+html:is(.w-editor, .gsap-not-found) :is([data-ix-load-run], [data-ix-load]){visibility: visible;} 
 */
 
 export const load = function (gsapContext) {

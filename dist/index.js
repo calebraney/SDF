@@ -502,10 +502,10 @@
     };
     const scrollInImage = function(item2) {
       if (!item2) return;
-      const child = item2.firstChild;
+      const parent = item2.parentElement;
       const tl = scrollInTL(item2);
       tl.fromTo(
-        child,
+        item2,
         {
           scale: 1.2
         },
@@ -515,7 +515,7 @@
         }
       );
       tl.fromTo(
-        item2,
+        parent,
         {
           scale: 0.9
         },
@@ -1316,19 +1316,17 @@
     const menu = function(gsapContext) {
       const ANIMATION_ID = "menu";
       const MENU_WRAP = `[data-ix-menu="wrap"]`;
-      const MENU_ITEM = `[data-ix-menu="item"]`;
       const MENU_LINK = `[data-ix-menu="link"]`;
       const MENU_TEXT_WRAP = `[data-ix-menu="text-wrap"]`;
-      const MENU_NUMBER = "data-ix-menu-number";
       const ACTIVE_CLASS = "is-active";
       const HOVER_CLASS = "is-hovered";
       const OPEN_CLASS = "is-open";
       const menuWrap = document.querySelector(MENU_WRAP);
-      const menuItems = gsap.utils.toArray(MENU_ITEM);
-      const menuLinks = gsap.utils.toArray(MENU_LINK);
-      if (menuItems.length === 0 || menuLinks.length === 0 || !menuWrap) return;
+      const menuLinks = [...document.querySelectorAll(MENU_LINK)];
+      if (menuLinks.length === 0 || !menuWrap) return;
       const hoverMenuItem = function(activeItem, active = true) {
-        const flipItems = gsap.utils.toArray([MENU_LINK, MENU_TEXT_WRAP]);
+        const textWrap = activeItem.querySelector(MENU_TEXT_WRAP);
+        const flipItems = [activeItem, textWrap];
         const state = Flip.getState(flipItems, {
           // props: 'width,height,margin',
           nested: true,
@@ -1341,11 +1339,12 @@
         }
         Flip.from(state, {
           duration: 0.5,
-          ease: "power1.out"
+          ease: "power2.inOut"
         });
       };
       menuLinks.forEach((link) => {
         link.addEventListener("mouseenter", function(e2) {
+          console.log(link);
           hoverMenuItem(link);
         });
         link.addEventListener("mouseleave", function(e2) {
