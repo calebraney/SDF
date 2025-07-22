@@ -59,6 +59,7 @@ export const loop = function (gsapContext) {
       defaults: {
         repeat: -1,
         ease: 'none',
+        transformOrigin: 'center center',
       },
     });
     //add core properties

@@ -96,9 +96,9 @@ export const scrollIn = function (gsapContext) {
     }
     //split the text
     SplitText.create(item, {
-      type: 'words', // 'chars, words, lines
+      type: 'lines, words', // 'chars, words, lines
       // linesClass: "line",
-      wordsClass: 'word',
+      wordsClass: 'line',
       // charsClass: "char",
       // mask: 'lines',
       autoSplit: true, //have it auto adjust based on width
@@ -107,7 +107,7 @@ export const scrollIn = function (gsapContext) {
         // animation to run for the item
         const tl = scrollInTL(item);
 
-        tween = defaultTween(self.words, tl, { stagger: 'small' });
+        tween = defaultTween(self.lines, tl, { stagger: 'small' });
         //create callback function to revert text
         const revertText = function (self) {
           self.revert();

@@ -147,6 +147,179 @@ document.addEventListener('DOMContentLoaded', function () {
     //   });
     // });
   };
+
+  const heroLoop = function () {
+    //elements
+    const arrow = document.querySelector('#hero-arrow-path');
+    const ear = document.querySelector('#hero-ear');
+    const squigglePaths = [...document.querySelectorAll('.hero_path')];
+    const svgGroups = [...document.querySelectorAll('.hero_svg')];
+
+    //guard clause
+    if (!arrow || squigglePaths.length === 0) return;
+
+    // console.log(arrow);
+    //word timelines
+    svgGroups.forEach((item) => {
+      let tl = gsap.timeline({
+        paused: true,
+        defaults: {
+          duration: 0.6,
+          ease: 'power2.inOut',
+        },
+      });
+      tl.fromTo(
+        item,
+        {
+          scale: 1,
+        },
+        {
+          scale: 1.1,
+          rotateZ: 'random([-10, 10])',
+          transformOrigin: 'center center',
+        },
+        '<'
+      );
+      // tl.progress(0);
+
+      item.addEventListener('mouseenter', function (e) {
+        tl.play();
+      });
+      item.addEventListener('mouseleave', function (e) {
+        tl.reverse();
+      });
+    });
+    let tl = gsap.timeline({
+      delay: 2,
+      repeat: -1,
+      yoyo: true,
+      // paused: true,
+      defaults: {
+        duration: 2,
+        ease: 'power2.inOut',
+      },
+    });
+    tl.fromTo(
+      arrow,
+      {
+        drawSVG: '0% 100%',
+      },
+      {
+        drawSVG: '100% 80%',
+      }
+    );
+    let earTL = gsap.timeline({
+      delay: 2,
+      repeat: -1,
+      yoyo: true,
+      // paused: true,
+      defaults: {
+        duration: 1,
+        ease: 'bounce.inOut',
+      },
+    });
+    earTL.fromTo(
+      ear,
+      {
+        rotateZ: 0,
+      },
+      {
+        drawSVG: -12,
+      }
+    );
+    let squiggleTL = gsap.timeline({
+      delay: 2,
+      defaults: {
+        duration: 3,
+        ease: 'power2.inOut',
+      },
+    });
+    squiggleTL.fromTo(
+      squigglePaths[0],
+      {
+        drawSVG: '100% 0%',
+      },
+      {
+        stagger: { amount: 1.5, repeat: -1, yoyo: true },
+        drawSVG: '0% 0%',
+        // transformOrigin: 'center center',
+      }
+    );
+    squiggleTL.fromTo(
+      [squigglePaths[1], squigglePaths[2]],
+      {
+        drawSVG: '0% 100%',
+      },
+      {
+        delay: 1.5,
+        stagger: { amount: 1.5, repeat: -1, yoyo: true },
+        drawSVG: '100% 100%',
+        // transformOrigin: 'center center',
+      },
+      '<'
+    );
+  };
+  const avatars = function () {
+    const WRAP = '[data-ix-avatar="wrap"]';
+    const ITEMS = '[data-ix-avatar="item"]';
+
+    //elements
+
+    const wraps = [...document.querySelectorAll(WRAP)];
+
+    //guard clause
+    if (wraps.length === 0) return;
+    wraps.forEach((wrap) => {
+      const items = wrap.querySelectorAll(ITEMS);
+      let tl = gsap.timeline({
+        scrollTrigger: { trigger: wrap, start: 'top bottom', end: 'bottom top', scrub: true },
+        defaults: {
+          duration: 1,
+          ease: 'none',
+        },
+      });
+      tl.fromTo(
+        items,
+        {
+          yPercent: -30,
+        },
+        {
+          yPercent: 80,
+        },
+        '<'
+      );
+      tl.fromTo(
+        items[0],
+        {
+          rotateZ: 0,
+        },
+        {
+          rotateZ: -45,
+        },
+        '<'
+      );
+      tl.fromTo(
+        items[1],
+        {
+          rotateZ: 0,
+        },
+        {
+          rotateZ: -15,
+        },
+        '<'
+      );
+      tl.fromTo(
+        items[2],
+        {
+          rotateZ: 0,
+        },
+        {
+          rotateZ: 25,
+        },
+        '<'
+      );
+    });
+  };
   //////////////////////////////
   //Control Functions on page load
   const gsapInit = function () {
@@ -165,7 +338,9 @@ document.addEventListener('DOMContentLoaded', function () {
         lenis = initLenis();
         menu();
         load(gsapContext);
-        hoverActive(gsapContext);
+        heroLoop();
+        avatars();
+        // hoverActive(gsapContext);
         accordion(gsapContext);
         marquee(gsapContext);
         // conditional interactions
@@ -173,7 +348,11 @@ document.addEventListener('DOMContentLoaded', function () {
           scrollIn(gsapContext);
           scrolling(gsapContext);
           mouseOver(gsapContext);
-          loop(gsapContext);
+          // loop(gsapContext);
+          //reset scrolltrigger after load
+          setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, 5000);
         }
       }
     );
