@@ -259,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '<'
     );
   };
+
   const avatars = function () {
     const WRAP = '[data-ix-avatar="wrap"]';
     const ITEMS = '[data-ix-avatar="item"]';
@@ -320,6 +321,72 @@ document.addEventListener('DOMContentLoaded', function () {
       );
     });
   };
+
+  const chartAnimation = function () {
+    const PANEL = '.tabs_main_panel';
+    const BAR = '.tabs_main_bar';
+    const BUBBLE = '.tabs_main_bubble';
+    const TAB_LINK = '.tabs_main_link';
+
+    const panels = [...document.querySelectorAll(PANEL)];
+    const links = [...document.querySelectorAll(TAB_LINK)];
+
+    if (panels.length === 0) return;
+    panels.forEach((panel, index) => {
+      const link = links[index];
+      const bars = [...panel.querySelectorAll(BAR)];
+      const bubbles = [...panel.querySelectorAll(BUBBLE)];
+
+      let tl = gsap.timeline({
+        paused: true,
+        defaults: {
+          duration: 0.8,
+          ease: 'power1.inOut',
+        },
+      });
+
+      tl.fromTo(
+        bars,
+        {
+          clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
+        },
+        {
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          transformOrigin: 'center center',
+          stagger: 0.2,
+        }
+      );
+      tl.fromTo(
+        bubbles,
+        {
+          transformOrigin: 'center center',
+          scale: 0.75,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          stagger: 0.2,
+        },
+        '<.2'
+      );
+
+      //play animation on scroll in
+      ScrollTrigger.create({
+        trigger: panel,
+        markers: false,
+        start: 'top 80%',
+        end: 'center 1%',
+        onEnter: () => {
+          tl.play();
+        },
+      });
+      link.addEventListener('click', () => {
+        //do somethign on hover in
+        tl.restart();
+      });
+    });
+  };
   //////////////////////////////
   //Control Functions on page load
   const gsapInit = function () {
@@ -348,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
           scrollIn(gsapContext);
           scrolling(gsapContext);
           mouseOver(gsapContext);
+          chartAnimation();
           // loop(gsapContext);
           //reset scrolltrigger after load
           setTimeout(() => {

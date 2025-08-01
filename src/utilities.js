@@ -121,6 +121,10 @@ export const getClipDirection = function (attributeValue) {
   return clipMask;
 };
 
+/*
+//Example usage
+let classWatcher = new ClassWatcher(item, ITEM_ACTIVE_CLASS, tabActivated, tabDeactivated);
+*/
 export class ClassWatcher {
   constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
     this.targetNode = targetNode;
