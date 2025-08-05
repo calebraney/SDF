@@ -24,6 +24,21 @@ document.addEventListener('DOMContentLoaded', function () {
   //Global Variables
   let lenis;
 
+  const tooltipShow = function () {
+    const button = document.querySelector('.nav_links_link');
+    if (!button) return;
+    const tooltip = button.querySelector('.list_tooltip');
+    const ACTIVE_CLASS = 'is-active';
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      tooltip.classList.add(ACTIVE_CLASS);
+      setTimeout(() => {
+        // Your code
+        tooltip.classList.remove(ACTIVE_CLASS);
+      }, 1000);
+    });
+  };
+
   const menu = function (gsapContext) {
     const ANIMATION_ID = 'menu';
     const MENU_WRAP = `[data-ix-menu="wrap"]`;
@@ -404,6 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //functional interactions
         lenis = initLenis();
         menu();
+        tooltipShow();
         load(gsapContext);
         heroLoop();
         avatars();
