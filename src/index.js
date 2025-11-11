@@ -428,11 +428,11 @@ document.addEventListener('DOMContentLoaded', function () {
         marquee(gsapContext);
         // conditional interactions
         if (!reduceMotion) {
-          scrollIn(gsapContext);
           scrolling(gsapContext);
           mouseOver(gsapContext);
           chartAnimation();
           // loop(gsapContext);
+          scrollIn(gsapContext);
           //reset scrolltrigger after load
           setTimeout(() => {
             ScrollTrigger.refresh();
