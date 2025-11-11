@@ -33,6 +33,7 @@ export const scrollIn = function (gsapContext) {
 
   //resuable timeline creation with option attributes for individual customization per element
   const scrollInTL = function (item) {
+    if (!item) return;
     // default GSAP options
     const settings = {
       scrub: false,
@@ -41,10 +42,10 @@ export const scrollIn = function (gsapContext) {
       end: 'top 75%',
     };
     //override settings if an attribute is present and a valid type.
-    settings.toggleActions = attr(settings.toggleActions, item.getAttribute(SCROLL_TOGGLE_ACTIONS));
-    settings.scrub = attr(settings.scrub, item.getAttribute(SCROLL_SCRUB));
-    settings.start = attr(settings.start, item.getAttribute(SCROLL_START));
-    settings.end = attr(settings.end, item.getAttribute(SCROLL_END));
+    // settings.toggleActions = attr(settings.toggleActions, item.getAttribute(SCROLL_TOGGLE_ACTIONS));
+    // settings.scrub = attr(settings.scrub, item.getAttribute(SCROLL_SCRUB));
+    // settings.start = attr(settings.start, item.getAttribute(SCROLL_START));
+    // settings.end = attr(settings.end, item.getAttribute(SCROLL_END));
     const tl = gsap.timeline({
       defaults: {
         duration: DURATION,
