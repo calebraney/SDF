@@ -237,7 +237,7 @@ export const scrollIn = function (gsapContext) {
   wraps.forEach((wrap) => {
     //check breakpoints and exit if set to false
     let runOnBreakpoint = checkBreakpoints(wrap, ANIMATION_ID, gsapContext);
-    if (runOnBreakpoint === false && wrap.getAttribute('data-ix-load-run') === 'false') return;
+    if (runOnBreakpoint === false && wrap.getAttribute(`${ATTRIBUTE}-run`) === 'false') return;
 
     //get all items within the section
     const items = [...wrap.querySelectorAll(`[${ATTRIBUTE}]:not([${ATTRIBUTE}-run="false"])`)];
